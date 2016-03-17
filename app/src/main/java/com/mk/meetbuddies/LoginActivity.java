@@ -83,11 +83,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        signIn= (Button)findViewById(R.id.email_sign_in_button);
-        title=(TextView)findViewById(R.id.title);
+        signIn = (Button) findViewById(R.id.email_sign_in_button);
+        title = (TextView) findViewById(R.id.title);
 
         populateAutoComplete();
-        font=Typeface.createFromAsset(getAssets(), "lucida.ttf");
+        font = Typeface.createFromAsset(getAssets(), "lucida.ttf");
         title.setTypeface(font);
         signIn.setTypeface(font);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -156,9 +156,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
+
     @Override
     public void onBackPressed() {
-       finish();
+        finish();
         this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
@@ -208,7 +209,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            // showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute();
         }
@@ -378,7 +379,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(String success) {
             //mAuthTask = null;
-            //showProgress(false);
 
             Log.i("Success", success);
 
@@ -387,13 +387,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 SessionManager session = new SessionManager(LoginActivity.this);
                 Toast.makeText(LoginActivity.this, "Welcome " + session.getName() + "" + session.getPrename(), Toast.LENGTH_LONG).show();
                 // Intent idash = new Intent(LoginActivity.this, Dashboard.class);
-                Intent idash = new Intent(LoginActivity.this,Splash.class);
+                Intent idash = new Intent(LoginActivity.this, Splash.class);
                 startActivity(idash);
 
             }
             if (success.equals("fail")) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
+                // showProgress(false);
             }
             super.onPostExecute(success);
         }
