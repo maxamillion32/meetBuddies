@@ -15,4 +15,6 @@ public class SignUp extends AppCompatActivity {
         finish();
         this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+
 }

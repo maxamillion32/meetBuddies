@@ -3,23 +3,24 @@ package com.mk.meetbuddies;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mk.utils.JSONParser;
+import com.mk.utils.SessionManager;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private TextView title;
     private Button signIn;
+    private String msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,8 +184,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError("This field is required");
             focusView = mPasswordView;
             cancel = true;
         }
@@ -198,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute();
         }
     }
 
@@ -207,10 +219,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return email.contains("@");
     }
 
-    private boolean isPasswordValid(String password) {
+    /*private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
-    }
+    }*/
 
     /**
      * Shows the progress UI and hides the login form.
@@ -306,10 +318,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<String, String, String> {
 
         private final String mEmail;
         private final String mPassword;
+        private ProgressDialog pdialog;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -317,45 +330,72 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            pdialog = new ProgressDialog(LoginActivity.this);
+            pdialog.setMessage("Loading... Please Wait");
+            pdialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+            Log.i("Email", mEmail);
+            param.add(new BasicNameValuePair("login", mEmail));
+            param.add(new BasicNameValuePair("password", mPassword));
+            JSONParser jParser = new JSONParser();
+            JSONObject json = jParser.makeHttpRequest("http://meetbuddies.net16.net/Ws/Login.php", "GET", param);
+            Log.i("response http", json.toString());
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                int success = json.getInt("success");
+                if (success == 1) {
+                    JSONArray users = json.getJSONArray("User");
+                    JSONObject user = users.getJSONObject(0);
+                    String id = user.getString("id_usr");
+                    String name = user.getString("name");
+                    String prename = user.getString("prename");
+                    String photoUrl = user.getString("photo");
+                    String adress = user.getString("adress");
+                    SessionManager session = new SessionManager(LoginActivity.this);
+                    session.createLoginSession(id, name, prename, photoUrl, adress);
+                    return "success";
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                } else {
+                    msg = json.getString("message");
+                    return "fail";
                 }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
 
-            // TODO: register the new account here.
-            return true;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
+        protected void onPostExecute(String success) {
+            //mAuthTask = null;
+            //showProgress(false);
 
-            if (success) {
-                finish();
-            } else {
+            Log.i("Success", success);
+
+            pdialog.dismiss();
+            if (success.equals("success")) {
+                SessionManager session = new SessionManager(LoginActivity.this);
+                Toast.makeText(LoginActivity.this, "Welcome " + session.getName() + "" + session.getPrename(), Toast.LENGTH_LONG).show();
+                // Intent idash = new Intent(LoginActivity.this, Dashboard.class);
+                Intent idash = new Intent(LoginActivity.this,Splash.class);
+                startActivity(idash);
+
+            }
+            if (success.equals("fail")) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
             }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
+            super.onPostExecute(success);
         }
     }
 }
