@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/user"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/calendar"
+            android:title="My Calendar" />
+        <item
+            android:id="@+id/nav_locations"
+            android:icon="@android:drawable/ic_dialog_map"
+            android:title="My Buddies locations" />
+        <item
+            android:id="@+id/nav_meeting"
+            android:icon="@drawable/meeting"
+            android:title="My Meetings" />
+        <item
+            android:id="@+id/nav_buddies"
+            android:icon="@drawable/friends"
+            android:title="My Buddies" />
+    </group>
+
+  <!--!  <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+-->
+</menu>
