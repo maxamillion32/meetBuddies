@@ -3,8 +3,10 @@ package com.mk.meetbuddies;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,24 +24,27 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SignUp extends Activity {
+public class SignUp extends AppCompatActivity {
 
     private SubscribeTask subTask = null;
     private Button bOk, bCancel;
-    private TextView name, prename, login, password, photoUrl, adress;
+    private TextView name, prename, login, password, photoUrl, adress, title;
+    private Typeface font;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        font = Typeface.createFromAsset(getAssets(), "lucida.ttf");
         name = (TextView) findViewById(R.id.tname);
+        title= (TextView) findViewById(R.id.sign_up_label);
         prename = (TextView) findViewById(R.id.tprename);
         login = (TextView) findViewById(R.id.tlogin);
         password = (TextView) findViewById(R.id.tpassword);
         //photoUrl = (TextView) findViewById(R.id.tphotourl);
         adress = (TextView) findViewById(R.id.tadress);
 
+        title.setTypeface(font);
         bOk = (Button) findViewById(R.id.bok);
         bOk.setOnClickListener(new OnClickListener() {
 
@@ -72,7 +77,7 @@ public class SignUp extends Activity {
 
         });
     }
-
+/*
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         // TODO Auto-generated method stub
@@ -84,7 +89,7 @@ public class SignUp extends Activity {
 
         return super.onMenuItemSelected(featureId, item);
     }
-
+*/
     public boolean verify() {
         if (name.getText().toString().equals("")) {
             name.setError("Empty Field name");
