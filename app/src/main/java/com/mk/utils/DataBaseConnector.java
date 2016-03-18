@@ -29,23 +29,29 @@ public class DataBaseConnector {
         db.close();
     }
 
-    public void insertUser(int id, String name, String prename, String photoUrl) {
+    public void insertUser(int id, String name, String prename, String login, String password, String photoUrl, String adress) {
         ContentValues cv = new ContentValues();
         cv.put("_id", id);
         cv.put("name", name);
         cv.put("prename", prename);
+        cv.put("login", login);
+        cv.put("password", password);
         cv.put("photo", photoUrl);
+        cv.put("adress", adress);
 
         open();
         db.insert(DataBaseOpenHelper.TABLE_USER, null, cv);
         close();
     }
 
-    public void updateUser(int id, String name, String prename, String photoUrl) {
+    public void updateUser(int id, String name, String prename, String login, String password, String photoUrl, String adress) {
         ContentValues cv = new ContentValues();
         cv.put("name", name);
         cv.put("prename", prename);
+        cv.put("login", login);
+        cv.put("password", password);
         cv.put("photo", photoUrl);
+        cv.put("adress", adress);
 
         open();
         db.update(DataBaseOpenHelper.TABLE_USER, cv, "_id=" + id, null);
