@@ -16,7 +16,6 @@ public class DataBaseConnector {
     private SQLiteDatabase db;
 
     public DataBaseConnector(Context context) {
-
         this.context = context;
         dbOpenHelper = new DataBaseOpenHelper(context, DATA_BASE_NAME, null, 1);
     }
@@ -40,12 +39,14 @@ public class DataBaseConnector {
         cv.put("adress", adress);
 
         open();
+        dbOpenHelper.onUpgrade(db,0,1);
         db.insert(DataBaseOpenHelper.TABLE_USER, null, cv);
         close();
     }
 
     public void updateUser(int id, String name, String prename, String login, String password, String photoUrl, String adress) {
         ContentValues cv = new ContentValues();
+        cv.put("_id", id);
         cv.put("name", name);
         cv.put("prename", prename);
         cv.put("login", login);

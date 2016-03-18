@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -170,9 +169,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
+        /*if (mAuthTask != null) {
             return;
-        }
+        }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -344,12 +343,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected String doInBackground(String... params) {
 
             ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
-            Log.i("Email", mEmail);
             param.add(new BasicNameValuePair("login", mEmail));
             param.add(new BasicNameValuePair("password", mPassword));
             JSONParser jParser = new JSONParser();
             JSONObject json = jParser.makeHttpRequest("http://meetbuddies.net16.net/Ws/Login.php", "GET", param);
-            Log.i("response http", json.toString());
+            // Log.i("response http", json.toString());
 
             try {
                 int success = json.getInt("success");
@@ -384,13 +382,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(String success) {
             //mAuthTask = null;
 
-            Log.i("Success", success);
-
             pdialog.dismiss();
             if (success.equals("success")) {
                 SessionManager session = new SessionManager(LoginActivity.this);
                 Toast.makeText(LoginActivity.this, "Welcome " + session.getName() + "" + session.getPrename(), Toast.LENGTH_LONG).show();
-                // Intent idash = new Intent(LoginActivity.this, Dashboard.class);
                 Intent idash = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(idash);
 
