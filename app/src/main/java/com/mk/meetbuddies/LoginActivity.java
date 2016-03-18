@@ -391,7 +391,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 SessionManager session = new SessionManager(LoginActivity.this);
                 Toast.makeText(LoginActivity.this, "Welcome " + session.getName() + "" + session.getPrename(), Toast.LENGTH_LONG).show();
                 // Intent idash = new Intent(LoginActivity.this, Dashboard.class);
-                Intent idash = new Intent(LoginActivity.this, Splash.class);
+                Intent idash = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(idash);
 
             }
