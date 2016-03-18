@@ -44,7 +44,8 @@ public class SignUp extends Activity {
         final String prenom = prename.getText().toString();
         final String log = login.getText().toString();
         final String pass = password.getText().toString();
-        final String photo = photoUrl.getText().toString();
+        // final String photo = photoUrl.getText().toString();
+        final String photo = "";
         final String adr = adress.getText().toString();
 
         bOk = (Button) findViewById(R.id.bok);
@@ -147,7 +148,7 @@ public class SignUp extends Activity {
             parames.add(new BasicNameValuePair("password", mPass));
             parames.add(new BasicNameValuePair("name", mName));
             parames.add(new BasicNameValuePair("prename", mPrename));
-            parames.add(new BasicNameValuePair("photo", mPhotoUrl));
+            // parames.add(new BasicNameValuePair("photo", mPhotoUrl));
             parames.add(new BasicNameValuePair("adres", mAdress));
 
             JSONParser jParser = new JSONParser();
@@ -183,7 +184,8 @@ public class SignUp extends Activity {
             if (result.equals("success")) {
 
                 Toast.makeText(SignUp.this, msg, Toast.LENGTH_LONG).show();
-                clear();
+                Intent idash = new Intent(SignUp.this, LoginActivity.class);
+                startActivity(idash);
 
             }
             if (result.equals("fail")) {
