@@ -40,14 +40,6 @@ public class SignUp extends Activity {
         //photoUrl = (TextView) findViewById(R.id.tphotourl);
         adress = (TextView) findViewById(R.id.tadress);
 
-        final String nom = name.getText().toString();
-        final String prenom = prename.getText().toString();
-        final String log = login.getText().toString();
-        final String pass = password.getText().toString();
-        // final String photo = photoUrl.getText().toString();
-        final String photo = "";
-        final String adr = adress.getText().toString();
-
         bOk = (Button) findViewById(R.id.bok);
         bOk.setOnClickListener(new OnClickListener() {
 
@@ -55,6 +47,13 @@ public class SignUp extends Activity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if (verify()) {
+                    final String nom = name.getText().toString();
+                    final String prenom = prename.getText().toString();
+                    final String log = login.getText().toString();
+                    final String pass = password.getText().toString();
+                    // final String photo = photoUrl.getText().toString();
+                    final String photo = "";
+                    final String adr = adress.getText().toString();
                     subTask = new SubscribeTask(nom, prenom, log, pass, photo, adr);
                     subTask.execute();
                 }
@@ -149,7 +148,7 @@ public class SignUp extends Activity {
             parames.add(new BasicNameValuePair("name", mName));
             parames.add(new BasicNameValuePair("prename", mPrename));
             // parames.add(new BasicNameValuePair("photo", mPhotoUrl));
-            parames.add(new BasicNameValuePair("adres", mAdress));
+            parames.add(new BasicNameValuePair("adress", mAdress));
 
             JSONParser jParser = new JSONParser();
             JSONObject json = jParser.makeHttpRequest("http://meetbuddies.net16.net/Ws/Subscribe.php", "GET", parames);
