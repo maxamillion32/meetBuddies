@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mk.utils.DataBaseConnector;
 import com.mk.utils.JSONParser;
 import com.mk.utils.SessionManager;
 
@@ -355,13 +356,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (success == 1) {
                     JSONArray users = json.getJSONArray("User");
                     JSONObject user = users.getJSONObject(0);
-                    String id = user.getString("id_usr");
+                    int id = user.getInt("id_usr");
+                    String idStr = user.getString("id_usr");
                     String name = user.getString("name");
                     String prename = user.getString("prename");
                     String photoUrl = user.getString("photo");
                     String adress = user.getString("adress");
                     SessionManager session = new SessionManager(LoginActivity.this);
-                    session.createLoginSession(id, name, prename, photoUrl, adress);
+                    session.createLoginSession(idStr, name, prename, photoUrl, adress);
+                    DataBaseConnector db = new DataBaseConnector(LoginActivity.this);
+                    db.insertUser(id, name, prename, mEmail, mPassword, photoUrl, adress);
                     return "success";
 
                 } else {
