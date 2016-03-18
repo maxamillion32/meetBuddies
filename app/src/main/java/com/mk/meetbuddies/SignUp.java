@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View.OnClickListener;
@@ -30,6 +31,7 @@ public class SignUp extends AppCompatActivity {
     private Button bOk, bCancel;
     private TextView name, prename, login, password, photoUrl, adress, title;
     private Typeface font;
+    private ImageView uploadPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class SignUp extends AppCompatActivity {
         prename = (TextView) findViewById(R.id.tprename);
         login = (TextView) findViewById(R.id.tlogin);
         password = (TextView) findViewById(R.id.tpassword);
-        //photoUrl = (TextView) findViewById(R.id.tphotourl);
+         uploadPic = (ImageView) findViewById(R.id.upload_picture);
         adress = (TextView) findViewById(R.id.tadress);
 
         title.setTypeface(font);
@@ -62,6 +64,15 @@ public class SignUp extends AppCompatActivity {
                     subTask = new SubscribeTask(nom, prenom, log, pass, photo, adr);
                     subTask.execute();
                 }
+            }
+
+        });
+        uploadPic.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+               getImageUrl();
             }
 
         });
@@ -210,11 +221,17 @@ public class SignUp extends AppCompatActivity {
         adress.setText("");
     }
 
+    public void getImageUrl(){
+    System.out.println("Image");
+        UploadDialog dialog = new UploadDialog(SignUp.this);
+        dialog.show();
+    }
+
     @Override
     public void onBackPressed() {
         finish();
         this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
 
+    }
 
 }
