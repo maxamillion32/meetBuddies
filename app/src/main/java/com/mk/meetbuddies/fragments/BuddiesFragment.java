@@ -17,6 +17,7 @@ public class BuddiesFragment extends Fragment {
 
     public BuddiesFragment() {
         // Required empty public constructor
+        int cas;
     }
 
 
