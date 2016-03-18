@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class SignUp extends Activity {
 
     private SubscribeTask subTask = null;
-    private Button bOk;
+    private Button bOk, bCancel;
     private TextView name, prename, login, password, photoUrl, adress;
 
     @Override
@@ -37,7 +37,7 @@ public class SignUp extends Activity {
         prename = (TextView) findViewById(R.id.tprename);
         login = (TextView) findViewById(R.id.tlogin);
         password = (TextView) findViewById(R.id.tpassword);
-        photoUrl = (TextView) findViewById(R.id.tphotourl);
+        //photoUrl = (TextView) findViewById(R.id.tphotourl);
         adress = (TextView) findViewById(R.id.tadress);
 
         final String nom = name.getText().toString();
@@ -57,6 +57,17 @@ public class SignUp extends Activity {
                     subTask = new SubscribeTask(nom, prenom, log, pass, photo, adr);
                     subTask.execute();
                 }
+            }
+
+        });
+
+        bCancel = (Button) findViewById(R.id.bcancel);
+        bCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                clear();
             }
 
         });
