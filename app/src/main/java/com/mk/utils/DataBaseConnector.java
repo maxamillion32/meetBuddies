@@ -39,7 +39,7 @@ public class DataBaseConnector {
         cv.put("adress", adress);
 
         open();
-        dbOpenHelper.onUpgrade(db,0,1);
+        dbOpenHelper.onUpgrade(db, 0, 1);
         db.insert(DataBaseOpenHelper.TABLE_USER, null, cv);
         close();
     }
@@ -63,7 +63,7 @@ public class DataBaseConnector {
         open();
         Cursor var = db.query(DataBaseOpenHelper.TABLE_USER, null, null,
                 null, null, null, "_id", null);
-        close();
+        // close();
         return var;
 
     }
