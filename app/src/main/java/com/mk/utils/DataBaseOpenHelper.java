@@ -20,7 +20,7 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         String req = "CREATE TABLE "
                 + TABLE_USER
-                + " (_id INTEGER PRIMARY KEY,name TEXT ,prename TEXT ,login TEXT, password TEXT, photo TEXT, adress TEXT);)";
+                + " (_id INTEGER PRIMARY KEY,name TEXT ,prename TEXT ,login TEXT, password TEXT, photo TEXT, adress TEXT, organisateur INTEGER, pref1 TEXT, pref2 TEX, pref3 TEX, pref4 TEX, pref5 TEX);)";
         db.execSQL(req);
     }
 
@@ -28,7 +28,6 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE " + TABLE_USER + ";");
         onCreate(db);
-
     }
 
 }

@@ -37,6 +37,12 @@ public class DataBaseConnector {
         cv.put("password", password);
         cv.put("photo", photoUrl);
         cv.put("adress", adress);
+        cv.put("organisateur", -1);
+        cv.put("pref1", "");
+        cv.put("pref2", "");
+        cv.put("pref3", "");
+        cv.put("pref4", "");
+        cv.put("pref5", "");
 
         open();
         dbOpenHelper.onUpgrade(db, 0, 1);
@@ -44,15 +50,20 @@ public class DataBaseConnector {
         close();
     }
 
-    public void updateUser(int id, String name, String prename, String login, String password, String photoUrl, String adress) {
+    public void updateUser(int id, String name, String prename, String login, String password, String photoUrl, String adress, Boolean organisateur, String p1, String p2, String p3, String p4, String p5) {
         ContentValues cv = new ContentValues();
-        cv.put("_id", id);
         cv.put("name", name);
         cv.put("prename", prename);
         cv.put("login", login);
         cv.put("password", password);
         cv.put("photo", photoUrl);
         cv.put("adress", adress);
+        cv.put("organisateur", organisateur);
+        cv.put("pref1", p1);
+        cv.put("pref2", p2);
+        cv.put("pref3", p3);
+        cv.put("pref4", p4);
+        cv.put("pref5", p5);
 
         open();
         db.update(DataBaseOpenHelper.TABLE_USER, cv, "_id=" + id, null);
@@ -81,6 +92,11 @@ public class DataBaseConnector {
         open();
         db.delete(DataBaseOpenHelper.TABLE_USER, "_id=" + id, null);
         close();
+    }
+
+    public void deleteAll() {
+        open();
+        dbOpenHelper.onUpgrade(db, 0, 1);
     }
 
 }
