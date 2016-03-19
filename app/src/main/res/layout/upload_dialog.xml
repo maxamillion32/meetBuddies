@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="250dp">
     <Button
         android:id="@+id/btn_new"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:background="@android:color/white"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@color/lightGray"
         android:clickable="true"
         android:text="Choose Image"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/btn_select"
-        android:layout_marginEnd="41dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/btn_select" />
     <Button
         android:id="@+id/btn_select"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:background="@android:color/white"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@color/lightGray"
         android:clickable="true"
         android:text="Take Image"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
-        android:layout_marginEnd="67dp"
-        android:layout_alignTop="@+id/btn_new"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/btn_new"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="Upload Profile Picture"
+        android:textColor="@android:color/white"
+        android:id="@+id/imageView2"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="10pt"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
