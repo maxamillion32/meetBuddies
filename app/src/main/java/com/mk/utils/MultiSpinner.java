@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class MultiSpinner extends Spinner implements OnMultiChoiceClickListener {
     private PrefTask mPrefTask = null;
-    String[] _items = setItems();
+    String[] _items = {"Cafteria", "Stadium", "Parc", "Cinema", "Theatre", "Gym", "School", "Bar"};
     boolean[] _selection = new boolean[_items.length];;
 
     ArrayAdapter<String> _proxyAdapter;
