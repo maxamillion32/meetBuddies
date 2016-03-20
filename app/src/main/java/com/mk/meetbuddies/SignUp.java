@@ -1,5 +1,6 @@
 package com.mk.meetbuddies;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,8 +39,11 @@ public class SignUp extends AppCompatActivity{
     private UploadDialog dialog;
     private UploadDialog.customOnClickListener dialogListener;
     private int PICK_IMAGE_REQUEST = 1;
-    private Uri filePath;
-    private Bitmap bitmap;
+    private static Uri filePath;
+    private static Bitmap bitmap;
+    private ImageUtils img;
+    private ImageView userPic;
+    private String UPLOAD_URL ="http://meetbuddies.net16.net/images/users/upload.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,7 @@ public class SignUp extends AppCompatActivity{
         password = (TextView) findViewById(R.id.tpassword);
         uploadPic = (ImageView) findViewById(R.id.upload_picture);
         adress = (TextView) findViewById(R.id.tadress);
+        userPic= (ImageView)findViewById(R.id.upload_picture);
         this.setDialogButtonsClickBehavior();//Define Dialog buttons onCLickListener
         dialog = new UploadDialog(this,dialogListener);
         title.setTypeface(font);
@@ -66,11 +71,17 @@ public class SignUp extends AppCompatActivity{
                     final String prenom = prename.getText().toString();
                     final String log = login.getText().toString();
                     final String pass = password.getText().toString();
-                    // final String photo = photoUrl.getText().toString();
-                    final String photo = "";
+                    final String photo ;
                     final String adr = adress.getText().toString();
+                        if(filePath!=null){
+                            photo = "img_user_"+log;
+                       }
+                    else{
+                       photo =null;
+                    }
                     subTask = new SubscribeTask(nom, prenom, log, pass, photo, adr);
                     subTask.execute();
+
                 }
             }
 
@@ -134,6 +145,11 @@ public class SignUp extends AppCompatActivity{
             password.setError("Empty Field adress");
             return false;
         }
+       /* if (filePath == null) {
+            return false;
+
+        }*/
+
 
         return true;
 
@@ -151,7 +167,7 @@ public class SignUp extends AppCompatActivity{
             mPrename = prenom;
             mLogin = log;
             mPass = pass;
-            mPhotoUrl = photo;
+            mPhotoUrl =photo ;
             mAdress = adr;
         }
 
@@ -169,15 +185,16 @@ public class SignUp extends AppCompatActivity{
             // TODO Auto-generated method stub
 
             ArrayList<NameValuePair> parames = new ArrayList<NameValuePair>();
-            parames.add(new BasicNameValuePair("login", mLogin));
+           parames.add(new BasicNameValuePair("login", mLogin));
             parames.add(new BasicNameValuePair("password", mPass));
             parames.add(new BasicNameValuePair("name", mName));
             parames.add(new BasicNameValuePair("prename", mPrename));
-            // parames.add(new BasicNameValuePair("photo", mPhotoUrl));
+            parames.add(new BasicNameValuePair("photo", "http://meetbuddies.net16.net/images/users/"+mPhotoUrl+".png"));
             parames.add(new BasicNameValuePair("adress", mAdress));
 
             JSONParser jParser = new JSONParser();
             JSONObject json = jParser.makeHttpRequest("http://meetbuddies.net16.net/Ws/Subscribe.php", "GET", parames);
+
 
             Log.i("response http", json.toString());
 
@@ -186,6 +203,7 @@ public class SignUp extends AppCompatActivity{
 
                 if (success == 1) {
                     msg = json.getString("message");
+
                     return "success";
 
                 } else {
@@ -198,14 +216,15 @@ public class SignUp extends AppCompatActivity{
                 e.printStackTrace();
             }
 
-            return null;
+      return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
             pdialog.dismiss();
-
+            img= new ImageUtils(UPLOAD_URL,bitmap, mPhotoUrl,SignUp.this);
+            img.uploadImage();
             if (result.equals("success")) {
 
                 Toast.makeText(SignUp.this, msg, Toast.LENGTH_LONG).show();
@@ -252,17 +271,24 @@ public class SignUp extends AppCompatActivity{
             @Override
             public void onUploadButtonClick() {
               uploadImage();
-
+                dialog.dismiss();
             }
         };
 
     }
-    private void showFileChooser() {
+
+    /**
+     *display native file chooser to select an image
+     */
+    private void showFileChooser() {//Displaying native
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+    /**
+     *Take a new photo using device's Camera
+     */
     private void uploadImage(){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         startActivityForResult(intent, 0);
@@ -274,20 +300,20 @@ public class SignUp extends AppCompatActivity{
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             filePath = data.getData();
-            Toast.makeText(SignUp.this,filePath.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SignUp.this,filePath.toString(), Toast.LENGTH_SHORT).show();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-
+                userPic.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {//Take image using camera
             filePath = data.getData();
-            Toast.makeText(SignUp.this,filePath.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SignUp.this,filePath.toString(), Toast.LENGTH_SHORT).show();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-
+                userPic.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
