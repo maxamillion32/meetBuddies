@@ -6,29 +6,37 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.mk.meetbuddies.R;
 import com.mk.utils.MultiSpinner;
 
+import java.util.List;
+
 public class AdditionalInfo extends DialogFragment {
+
+    TextView group;
+    MultiSpinner preferences;
+    CheckBox organizer;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        group = (TextView) getActivity().findViewById(R.id.group_name);
+        preferences = (MultiSpinner) getActivity().findViewById(R.id.preferences);
+        organizer = (CheckBox) getActivity().findViewById(R.id.organizer);
 
-        MultiSpinner mySpin = (MultiSpinner) getActivity().findViewById(R.id.preferences);
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflater.inflate(R.layout.activity_additional_info, null))
-                // Add action buttons
                 .setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // sign in the user ...
+                        String groupName = group.getText().toString();
+                        List<String> pref = preferences.getSelectedStrings();
+                        Boolean organizerStatus = false;
+                        if (organizer.isChecked()) organizerStatus = true;
                     }
                 });
 
