@@ -2,9 +2,12 @@ package com.mk.meetbuddies;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mk.utils.ImageUtils;
 import com.mk.utils.JSONParser;
 
 import org.apache.http.NameValuePair;
@@ -21,16 +25,21 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends AppCompatActivity{
 
     private SubscribeTask subTask = null;
     private Button bOk, bCancel;
     private TextView name, prename, login, password, photoUrl, adress, title;
     private Typeface font;
     private ImageView uploadPic;
-
+    private UploadDialog dialog;
+    private UploadDialog.customOnClickListener dialogListener;
+    private int PICK_IMAGE_REQUEST = 1;
+    private Uri filePath;
+    private Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +50,10 @@ public class SignUp extends AppCompatActivity {
         prename = (TextView) findViewById(R.id.tprename);
         login = (TextView) findViewById(R.id.tlogin);
         password = (TextView) findViewById(R.id.tpassword);
-         uploadPic = (ImageView) findViewById(R.id.upload_picture);
+        uploadPic = (ImageView) findViewById(R.id.upload_picture);
         adress = (TextView) findViewById(R.id.tadress);
-
+        this.setDialogButtonsClickBehavior();//Define Dialog buttons onCLickListener
+        dialog = new UploadDialog(this,dialogListener);
         title.setTypeface(font);
         bOk = (Button) findViewById(R.id.bok);
         bOk.setOnClickListener(new OnClickListener() {
@@ -85,6 +95,7 @@ public class SignUp extends AppCompatActivity {
             }
 
         });
+
     }
 /*
     @Override
@@ -127,6 +138,7 @@ public class SignUp extends AppCompatActivity {
         return true;
 
     }
+
 
     public class SubscribeTask extends AsyncTask<String, String, String> {
 
@@ -220,9 +232,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void getImageUrl(){
-    System.out.println("Image");
-        UploadDialog dialog = new UploadDialog(SignUp.this);
-        dialog.show();
+     dialog.show();
     }
 
     @Override
@@ -231,5 +241,57 @@ public class SignUp extends AppCompatActivity {
         this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
     }
+    private void setDialogButtonsClickBehavior(){
+        dialogListener = new UploadDialog.customOnClickListener() {
+            @Override
+            public void onChooseButtonClick() {
+                showFileChooser();
+                dialog.dismiss();
+            }
 
+            @Override
+            public void onUploadButtonClick() {
+              uploadImage();
+
+            }
+        };
+
+    }
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+    private void uploadImage(){
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        startActivityForResult(intent, 0);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            filePath = data.getData();
+            Toast.makeText(SignUp.this,filePath.toString(), Toast.LENGTH_SHORT).show();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {//Take image using camera
+            filePath = data.getData();
+            Toast.makeText(SignUp.this,filePath.toString(), Toast.LENGTH_SHORT).show();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
