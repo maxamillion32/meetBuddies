@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -347,7 +348,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             param.add(new BasicNameValuePair("password", mPassword));
             JSONParser jParser = new JSONParser();
             JSONObject json = jParser.makeHttpRequest("http://meetbuddies.net16.net/Ws/Login.php", "GET", param);
-            // Log.i("response http", json.toString());
+            Log.i("response http", json.toString());
 
             try {
                 int success = json.getInt("success");
@@ -359,7 +360,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     String name = user.getString("name");
                     String prename = user.getString("prename");
                     String photoUrl = user.getString("photo");
-                    String adress = user.getString("adress");
+                    String adress = user.getString("address");
                     SessionManager session = new SessionManager(LoginActivity.this);
                     session.createLoginSession(idStr, name, prename, photoUrl, adress);
                     DataBaseConnector db = new DataBaseConnector(LoginActivity.this);

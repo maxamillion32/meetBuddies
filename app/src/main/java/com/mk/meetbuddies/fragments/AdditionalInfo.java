@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 
 import com.mk.meetbuddies.R;
+import com.mk.utils.MultiSpinner;
 
 public class AdditionalInfo extends DialogFragment {
 
@@ -16,6 +17,9 @@ public class AdditionalInfo extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
+
+
+        MultiSpinner mySpin = (MultiSpinner) getActivity().findViewById(R.id.preferences);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
@@ -27,6 +31,7 @@ public class AdditionalInfo extends DialogFragment {
                         // sign in the user ...
                     }
                 });
+
         return builder.create();
     }
 }

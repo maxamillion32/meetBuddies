@@ -62,6 +62,14 @@ public class JSONParser {
 				HttpResponse httpResponse = httpClient.execute(httpGet);
 				HttpEntity httpEntity = httpResponse.getEntity();
 				is = httpEntity.getContent();
+			} else if (method == "GETALL") {
+				// request method is GETALL
+				DefaultHttpClient httpClient = new DefaultHttpClient();
+				HttpGet httpGet = new HttpGet(url);
+
+				HttpResponse httpResponse = httpClient.execute(httpGet);
+				HttpEntity httpEntity = httpResponse.getEntity();
+				is = httpEntity.getContent();
 			}
 
 		} catch (UnsupportedEncodingException e) {
