@@ -83,7 +83,7 @@ public class ImageUtils {
                                 loading[0].dismiss();
 
                                 //Showing toast
-                                Toast.makeText(targetActivity, volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
+                               // Toast.makeText(targetActivity, volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
                             }
                         });
 

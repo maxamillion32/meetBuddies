@@ -1,7 +1,9 @@
 package com.mk.meetbuddies;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,14 +36,14 @@ public class SignUp extends AppCompatActivity{
 
     private SubscribeTask subTask = null;
     private Button bOk, bCancel;
-    private TextView name, prename, login, password, photoUrl, adress, title;
+    private TextView name, prename, login, photoUrl, adress, title,confirmPass, password;
     private Typeface font;
     private ImageView uploadPic;
     private UploadDialog dialog;
     private UploadDialog.customOnClickListener dialogListener;
     private int PICK_IMAGE_REQUEST = 1;
     private static Uri filePath;
-    private static Bitmap bitmap;
+    private static Bitmap bitmap=null;
     private ImageUtils img;
     private ImageView userPic;
     private String UPLOAD_URL ="http://meetbuddies.net16.net/images/users/upload.php";
@@ -54,6 +57,7 @@ public class SignUp extends AppCompatActivity{
         prename = (TextView) findViewById(R.id.tprename);
         login = (TextView) findViewById(R.id.tlogin);
         password = (TextView) findViewById(R.id.tpassword);
+        confirmPass=(TextView) findViewById(R.id.tConfirmPassword);
         uploadPic = (ImageView) findViewById(R.id.upload_picture);
         adress = (TextView) findViewById(R.id.tadress);
         userPic= (ImageView)findViewById(R.id.upload_picture);
@@ -102,7 +106,7 @@ public class SignUp extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                clear();
+                finish();
             }
 
         });
@@ -123,17 +127,21 @@ public class SignUp extends AppCompatActivity{
 */
     public boolean verify() {
         if (name.getText().toString().equals("")) {
-            name.setError("Empty Field name");
+            name.setError("Empty Field Last Name");
             return false;
         }
 
         if (prename.getText().toString().equals("")) {
-            prename.setError("Empty Field prename");
+            prename.setError("Empty Field First Name");
             return false;
         }
 
         if (login.getText().toString().equals("")) {
-            login.setError("Empty Field login");
+            login.setError("Empty Field E-mail");
+            return false;
+        }
+        if(android.util.Patterns.EMAIL_ADDRESS.matcher(login.getText()).matches()==false){
+            login.setError("Invalid E-mail Format");
             return false;
         }
         if (password.getText().toString().equals("")) {
@@ -141,17 +149,17 @@ public class SignUp extends AppCompatActivity{
             return false;
         }
 
-        if (adress.getText().toString().equals("")) {
-            password.setError("Empty Field adress");
+         if (adress.getText().toString().equals("")) {
+            password.setError("Empty Field address");
             return false;
         }
-       /* if (filePath == null) {
+        if(password.getText().toString().equals(confirmPass.getText().toString())==false){
+            System.out.println(password.getText());
+            System.out.println(confirmPass.getText());
+            confirmPass.setError("Password do not match confirmation");
             return false;
-
-        }*/
-
-
-        return true;
+        }
+       return true;
 
     }
 
@@ -197,24 +205,44 @@ public class SignUp extends AppCompatActivity{
 
 
             Log.i("response http", json.toString());
+            if(filePath!= null){
+                Thread t= new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        img= new ImageUtils(UPLOAD_URL,bitmap, mPhotoUrl,SignUp.this);
+                        img.uploadImage();
+                    }
+                });
+                t.start();
+
+
+            }
 
             try {
-                int success = json.getInt("success");
+                synchronized (this) {
+                    wait(7000);
+                    int success = json.getInt("success");
 
-                if (success == 1) {
-                    msg = json.getString("message");
+                    if (success == 1) {
+                        msg = json.getString("message");
 
-                    return "success";
+                        return "success";
 
-                } else {
-                    msg = json.getString("message");
-                    return "fail";
+                    } else {
+                        msg = json.getString("message");
+                        return "fail";
+
+                    }
 
                 }
-            } catch (JSONException e) {
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+
 
       return null;
         }
@@ -223,8 +251,6 @@ public class SignUp extends AppCompatActivity{
         protected void onPostExecute(String result) {
             // TODO Auto-generated method stub
             pdialog.dismiss();
-            img= new ImageUtils(UPLOAD_URL,bitmap, mPhotoUrl,SignUp.this);
-            img.uploadImage();
             if (result.equals("success")) {
 
                 Toast.makeText(SignUp.this, msg, Toast.LENGTH_LONG).show();
@@ -237,6 +263,7 @@ public class SignUp extends AppCompatActivity{
                 Toast.makeText(SignUp.this, msg, Toast.LENGTH_LONG).show();
 
             }
+
             super.onPostExecute(result);
         }
 
