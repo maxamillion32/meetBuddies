@@ -37,7 +37,7 @@ public class DataBaseConnector {
         cv.put("password", password);
         cv.put("photo", photoUrl);
         cv.put("adress", adress);
-        cv.put("organisateur", -1);
+        cv.put("organisateur", "");
         cv.put("pref1", "");
         cv.put("pref2", "");
         cv.put("pref3", "");
@@ -74,7 +74,7 @@ public class DataBaseConnector {
     public void addInfo(int id, String group, String p1, String p2, String p3, String p4, String p5, Boolean organisateur) {
         ContentValues cv = new ContentValues();
         cv.put("group", group);
-        cv.put("organisateur", organisateur);
+        cv.put("organisateur", organisateur.toString());
         cv.put("pref1", p1);
         cv.put("pref2", p2);
         cv.put("pref3", p3);
