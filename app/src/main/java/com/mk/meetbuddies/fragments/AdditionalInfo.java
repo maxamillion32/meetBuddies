@@ -80,6 +80,7 @@ public class AdditionalInfo extends Dialog implements View.OnClickListener {
         private final Boolean mOrganizer;
         private int id = 0;
         private String msg;
+        private String[] perfs = {"", "", "", "", ""};
 
         public UpdateTask(String group, List<String> pref, Boolean organizer) {
             mGroup = group;
@@ -94,13 +95,16 @@ public class AdditionalInfo extends Dialog implements View.OnClickListener {
 
         @Override
         protected String doInBackground(String... params) {
+            for (int i = 0; i < mPref.size(); i++) {
+                perfs[i] = mPref.get(i);
+            }
             ArrayList<NameValuePair> parames = new ArrayList<NameValuePair>();
             parames.add(new BasicNameValuePair("group", mGroup));
-            parames.add(new BasicNameValuePair("pref1", mPref.get(0)));
-            parames.add(new BasicNameValuePair("pref1", mPref.get(1)));
-            parames.add(new BasicNameValuePair("pref1", mPref.get(2)));
-            parames.add(new BasicNameValuePair("pref1", mPref.get(3)));
-            parames.add(new BasicNameValuePair("pref1", mPref.get(4)));
+            parames.add(new BasicNameValuePair("pref1", perfs[0]));
+            parames.add(new BasicNameValuePair("pref1", perfs[1]));
+            parames.add(new BasicNameValuePair("pref1", perfs[2]));
+            parames.add(new BasicNameValuePair("pref1", perfs[3]));
+            parames.add(new BasicNameValuePair("pref1", perfs[4]));
             parames.add(new BasicNameValuePair("organnizer", mOrganizer.toString()));
 
             JSONParser jParser = new JSONParser();
@@ -117,8 +121,8 @@ public class AdditionalInfo extends Dialog implements View.OnClickListener {
                     if (cursor.moveToFirst()) {
                         id = cursor.getInt(0);
                     }
-                    session.updateUser(mGroup, mPref.get(0), mPref.get(1), mPref.get(2), mPref.get(3), mPref.get(4), mOrganizer);
-                    db.addInfo(id, mGroup, mPref.get(0), mPref.get(1), mPref.get(2), mPref.get(3), mPref.get(4), mOrganizer);
+                    session.updateUser(mGroup, perfs[0], perfs[1], perfs[2], perfs[3], perfs[4], mOrganizer);
+                    db.addInfo(id, mGroup, perfs[0], perfs[1], perfs[2], perfs[3], perfs[4], mOrganizer);
                     return "success";
 
 
