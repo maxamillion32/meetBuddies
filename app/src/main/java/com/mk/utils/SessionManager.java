@@ -56,6 +56,10 @@ public class SessionManager {
 
         return Pref.getString(KEY_NAME, "");
     }
+    public String getGroup() {
+
+        return Pref.getString(KEY_GROUP, "");
+    }
 
     public String getPrename() {
 
