@@ -2,7 +2,6 @@ package com.mk.meetbuddies;
 
 
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,9 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mk.meetbuddies.fragments.AdditionalInfo;
 import com.mk.meetbuddies.fragments.BuddiesFragment;
@@ -30,8 +26,6 @@ import com.mk.meetbuddies.fragments.LogoutFragment;
 import com.mk.meetbuddies.fragments.MeetingsFragment;
 import com.mk.meetbuddies.fragments.ProfileFragment;
 import com.mk.utils.DataBaseConnector;
-import com.mk.utils.MyGpsLocationListener;
-import com.mk.utils.SessionManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,17 +41,20 @@ public class MainActivity extends AppCompatActivity
         Cursor cursor = db.getAllUsers();
         if (cursor.moveToFirst()) {
             do {
-                if((cursor.getInt(7) == -1)&&(cursor.getString(8).equals(""))){
+                if ((cursor.getString(7).equals("")) && (cursor.getString(8).equals(""))) {
                     // open popup
                     FragmentManager fm = getSupportFragmentManager();
-                   AdditionalInfo fd = new AdditionalInfo(this);
-                  //  fd.show();
+                    AdditionalInfo fd = new AdditionalInfo(this);
+                    //  fd.show();
                     fd.setCanceledOnTouchOutside(false);
                 }
             } while (cursor.moveToNext());
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(7).equals("false")) fab.hide();
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,9 +117,8 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (id == R.id.nav_home) {
             fragment = new HomeFragment();
-        }
-       else if (id == R.id.nav_profile) {
-           fragment = new ProfileFragment();
+        } else if (id == R.id.nav_profile) {
+            fragment = new ProfileFragment();
         } else if (id == R.id.nav_calendar) {
             fragment = new CalendarFragment();
         } else if (id == R.id.nav_buddies) {
@@ -138,7 +134,7 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager.beginTransaction()
                 .replace(R.id.mainFragment, fragment)
-                //.set
+                        //.set
                 .commit();
 
         // Highlight the selected item, update the title, and close the drawer
