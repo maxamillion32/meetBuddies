@@ -28,7 +28,7 @@ public class DataBaseConnector {
         db.close();
     }
 
-    public void insertUser(int id, String name, String prename, String login, String password, String photoUrl, String adress) {
+    public void insertUser(int id, String name, String prename, String login, String password, String photoUrl, String adress, String currentLocation, String phone, String group, String pref1, String pref2, String pref3, String pref4, String pref5) {
         ContentValues cv = new ContentValues();
         cv.put("_id", id);
         cv.put("name", name);
@@ -37,13 +37,13 @@ public class DataBaseConnector {
         cv.put("password", password);
         cv.put("photo", photoUrl);
         cv.put("adress", adress);
-        cv.put("organisateur", "");
-        cv.put("groupN", "");
-        cv.put("pref1", "");
-        cv.put("pref2", "");
-        cv.put("pref3", "");
-        cv.put("pref4", "");
-        cv.put("pref5", "");
+        cv.put("organizer", "");
+        cv.put("groupN", group);
+        cv.put("pref1", pref1);
+        cv.put("pref2", pref2);
+        cv.put("pref3", pref3);
+        cv.put("pref4", pref4);
+        cv.put("pref5", pref5);
 
         open();
         dbOpenHelper.onUpgrade(db, 0, 1);
@@ -60,7 +60,7 @@ public class DataBaseConnector {
         cv.put("photo", photoUrl);
         cv.put("adress", adress);
         cv.put("groupN", group);
-        cv.put("organisateur", organisateur);
+        cv.put("organizer", organisateur);
         cv.put("pref1", p1);
         cv.put("pref2", p2);
         cv.put("pref3", p3);
@@ -75,7 +75,7 @@ public class DataBaseConnector {
     public void addInfo(int id, String group, String p1, String p2, String p3, String p4, String p5, Boolean organisateur) {
         ContentValues cv = new ContentValues();
         cv.put("groupN", group);
-        cv.put("organisateur", organisateur.toString());
+        cv.put("organizer", organisateur.toString());
         cv.put("pref1", p1);
         cv.put("pref2", p2);
         cv.put("pref3", p3);

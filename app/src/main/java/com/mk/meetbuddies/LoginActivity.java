@@ -361,10 +361,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     String prename = user.getString("prename");
                     String photoUrl = user.getString("photo");
                     String adress = user.getString("address");
+                    String currentLocation = user.getString("current_location");
+                    String phone = user.getString("phone");
+                    String pref1 = user.getString("pref1");
+                    String pref2 = user.getString("pref2");
+                    String pref3 = user.getString("pref3");
+                    String pref4 = user.getString("pref4");
+                    String pref5 = user.getString("pref5");
+                    String group = user.getString("group");
                     SessionManager session = new SessionManager(LoginActivity.this);
-                    session.createLoginSession(idStr, name, prename, photoUrl, adress);
+                    session.createLoginSession(idStr, name, prename, photoUrl, adress, currentLocation, phone, group, pref1, pref2, pref3, pref4, pref5);
                     DataBaseConnector db = new DataBaseConnector(LoginActivity.this);
-                    db.insertUser(id, name, prename, mEmail, mPassword, photoUrl, adress);
+                    db.insertUser(id, name, prename, mEmail, mPassword, photoUrl, adress, currentLocation, phone, group, pref1, pref2, pref3, pref4, pref5);
                     return "success";
 
                 } else {

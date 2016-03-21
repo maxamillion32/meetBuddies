@@ -29,12 +29,19 @@ public class SessionManager {
         editor = Pref.edit();
     }
 
-    public void createLoginSession(String id, String name, String prename, String photoUrl, String adress) {
+    public void createLoginSession(String id, String name, String prename, String photoUrl, String adress, String currentLocation, String phone, String group, String pref1, String pref2, String pref3, String pref4, String pref5) {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_PRENAME, prename);
         editor.putString(KEY_PHOTOURL, photoUrl);
         editor.putString(KEY_ADRESS, adress);
         editor.putString(KEY_ID, id);
+        editor.putString(KEY_GROUP, group);
+        editor.putString(KEY_PREF1, pref1);
+        editor.putString(KEY_PREF2, pref2);
+        editor.putString(KEY_PREF3, pref3);
+        editor.putString(KEY_PREF4, pref4);
+        editor.putString(KEY_PREF5, pref5);
+        editor.putString(KEY_PREF1, currentLocation);
         editor.commit();
     }
 
