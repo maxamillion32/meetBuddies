@@ -50,7 +50,7 @@ public class DataBaseConnector {
         close();
     }
 
-    public void updateUser(int id, String name, String prename, String login, String password, String photoUrl, String adress, Boolean organisateur, String p1, String p2, String p3, String p4, String p5) {
+    public void updateUser(int id, String name, String prename, String login, String password, String photoUrl, String adress, String group, Boolean organisateur, String p1, String p2, String p3, String p4, String p5) {
         ContentValues cv = new ContentValues();
         cv.put("name", name);
         cv.put("prename", prename);
@@ -58,6 +58,22 @@ public class DataBaseConnector {
         cv.put("password", password);
         cv.put("photo", photoUrl);
         cv.put("adress", adress);
+        cv.put("group", group);
+        cv.put("organisateur", organisateur);
+        cv.put("pref1", p1);
+        cv.put("pref2", p2);
+        cv.put("pref3", p3);
+        cv.put("pref4", p4);
+        cv.put("pref5", p5);
+
+        open();
+        db.update(DataBaseOpenHelper.TABLE_USER, cv, "_id=" + id, null);
+        close();
+    }
+
+    public void addInfo(int id, String group, String p1, String p2, String p3, String p4, String p5, Boolean organisateur) {
+        ContentValues cv = new ContentValues();
+        cv.put("group", group);
         cv.put("organisateur", organisateur);
         cv.put("pref1", p1);
         cv.put("pref2", p2);

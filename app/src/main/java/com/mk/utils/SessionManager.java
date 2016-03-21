@@ -15,6 +15,13 @@ public class SessionManager {
     public static final String KEY_ID = "id";
     public static final String KEY_PHOTOURL = "photo";
     public static final String KEY_ADRESS = "adress";
+    public static final String KEY_GROUP = "group";
+    public static final String KEY_PREF1 = "pref1";
+    public static final String KEY_PREF2 = "pref2";
+    public static final String KEY_PREF3 = "pref3";
+    public static final String KEY_PREF4 = "pref4";
+    public static final String KEY_PREF5 = "pref5";
+    public static final String KEY_ORGANIZER = "organizer";
 
     public SessionManager(Context cont) {
         Context = cont;
@@ -61,6 +68,17 @@ public class SessionManager {
 
     public String getAdress() {
         return Pref.getString(KEY_ADRESS, "");
+    }
+
+    public void updateUser(String group, String pref1, String pref2, String pref3, String pref4, String pref5, Boolean organizer) {
+        editor.putString(KEY_GROUP, group);
+        editor.putString(KEY_PREF1, pref1);
+        editor.putString(KEY_PREF2, pref2);
+        editor.putString(KEY_PREF3, pref3);
+        editor.putString(KEY_PREF4, pref4);
+        editor.putString(KEY_PREF5, pref5);
+        editor.putString(KEY_ORGANIZER, organizer.toString());
+        editor.commit();
     }
 
 }
