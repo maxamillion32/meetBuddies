@@ -22,6 +22,7 @@ public class SessionManager {
     public static final String KEY_PREF4 = "pref4";
     public static final String KEY_PREF5 = "pref5";
     public static final String KEY_ORGANIZER = "organizer";
+    public static final String KEY_IS_GROUP_OR = "hisGroupOrganizer";
 
     public SessionManager(Context cont) {
         Context = cont;
@@ -29,7 +30,7 @@ public class SessionManager {
         editor = Pref.edit();
     }
 
-    public void createLoginSession(String id, String name, String prename, String photoUrl, String adress, String currentLocation, String phone, String group, String pref1, String pref2, String pref3, String pref4, String pref5) {
+    public void createLoginSession(String id, String name, String prename, String photoUrl, String adress, String currentLocation, String phone, String group, String pref1, String pref2, String pref3, String pref4, String pref5, Boolean hisGroupOrg) {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_PRENAME, prename);
         editor.putString(KEY_PHOTOURL, photoUrl);
@@ -42,6 +43,7 @@ public class SessionManager {
         editor.putString(KEY_PREF4, pref4);
         editor.putString(KEY_PREF5, pref5);
         editor.putString(KEY_PREF1, currentLocation);
+        editor.putBoolean(KEY_IS_GROUP_OR,hisGroupOrg);
         editor.commit();
     }
 
@@ -105,6 +107,10 @@ public class SessionManager {
 
     public String getPref5() {
         return Pref.getString(KEY_PREF5, "");
+    }
+
+    public Boolean gethisGroupOrg() {
+        return Pref.getBoolean(KEY_IS_GROUP_OR, false);
     }
 
     public Boolean getOrganizer() {

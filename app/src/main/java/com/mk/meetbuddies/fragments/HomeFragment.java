@@ -21,7 +21,7 @@ import com.mk.utils.SessionManager;
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     MyGpsLocationListener gps;
-    private TextView user, group, position,next, welcome;
+    private TextView user, groupLabel, position,next, welcome;
     private Typeface font,welcomeFont;
     private Button updateLocation;
     public HomeFragment() {
@@ -36,9 +36,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         user = (TextView)view.findViewById(R.id.user_name);
-        group=(TextView)view.findViewById(R.id.group_name);
+        groupLabel=(TextView)view.findViewById(R.id.groupName);
         position =(TextView)view.findViewById(R.id.position);
-        next=(TextView)view.findViewById(R.id.nextMeeting);
+        //next=(TextView)view.findViewById(R.id.nextMeeting);
         welcome=(TextView)view.findViewById(R.id.wlc);
         font = Typeface.createFromAsset(getActivity().getAssets(), "bariol.ttf");
         welcomeFont= Typeface.createFromAsset(getActivity().getAssets(), "ubuntu.ttf");
@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         user.setText(session.getName() + " " + session.getPrename());
         user.setTypeface(font);
         welcome.setTypeface(welcomeFont);
-        //  group.setText(session.getGroup());
+        groupLabel.setText(session.getGroup());
         double latitude=0;
         double longitude=0;
         if(gps.canGetLocation()) {

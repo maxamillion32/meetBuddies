@@ -28,7 +28,7 @@ public class DataBaseConnector {
         db.close();
     }
 
-    public void insertUser(int id, String name, String prename, String login, String password, String photoUrl, String adress, String currentLocation, String phone, String group, String pref1, String pref2, String pref3, String pref4, String pref5) {
+    public void insertUser(int id, String name, String prename, String login, String password, String photoUrl, String adress, String currentLocation, String phone, String group, String pref1, String pref2, String pref3, String pref4, String pref5, Boolean isGroupOrg) {
         ContentValues cv = new ContentValues();
         cv.put("_id", id);
         cv.put("name", name);
