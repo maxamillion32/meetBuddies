@@ -27,51 +27,15 @@ public class SessionManager {
         Context = cont;
         Pref = Context.getSharedPreferences(PREF_NAME, 0);
         editor = Pref.edit();
-        // TODO Auto-generated constructor stub
     }
 
     public void createLoginSession(String id, String name, String prename, String photoUrl, String adress) {
-
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_PRENAME, prename);
         editor.putString(KEY_PHOTOURL, photoUrl);
         editor.putString(KEY_ADRESS, adress);
         editor.putString(KEY_ID, id);
         editor.commit();
-    }
-
-    public void logoutUser() {
-        // Clearing all data from Shared Preferences
-        editor.clear();
-        editor.commit();
-
-    }
-
-    public int getId() {
-        int id = Integer.parseInt(Pref.getString(KEY_ID, "0"));
-        return id;
-    }
-
-    public String getName() {
-
-        return Pref.getString(KEY_NAME, "");
-    }
-    public String getGroup() {
-
-        return Pref.getString(KEY_GROUP, "");
-    }
-
-    public String getPrename() {
-
-        return Pref.getString(KEY_PRENAME, "");
-    }
-
-    public String getPhotourl() {
-        return Pref.getString(KEY_PHOTOURL, "");
-    }
-
-    public String getAdress() {
-        return Pref.getString(KEY_ADRESS, "");
     }
 
     public void updateUser(String group, String pref1, String pref2, String pref3, String pref4, String pref5, Boolean organizer) {
@@ -85,4 +49,58 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void logoutUser() {
+        editor.clear();
+        editor.commit();
+
+    }
+
+    public int getId() {
+        int id = Integer.parseInt(Pref.getString(KEY_ID, "0"));
+        return id;
+    }
+
+    public String getName() {
+        return Pref.getString(KEY_NAME, "");
+    }
+
+    public String getPrename() {
+        return Pref.getString(KEY_PRENAME, "");
+    }
+
+    public String getPhotourl() {
+        return Pref.getString(KEY_PHOTOURL, "");
+    }
+
+    public String getAdress() {
+        return Pref.getString(KEY_ADRESS, "");
+    }
+
+    public String getGroup() {
+        return Pref.getString(KEY_GROUP, "");
+    }
+
+    public String getPref1() {
+        return Pref.getString(KEY_PREF1, "");
+    }
+
+    public String getPref2() {
+        return Pref.getString(KEY_PREF2, "");
+    }
+
+    public String getPref3() {
+        return Pref.getString(KEY_PREF3, "");
+    }
+
+    public String getPref4() {
+        return Pref.getString(KEY_PREF4, "");
+    }
+
+    public String getPref5() {
+        return Pref.getString(KEY_PREF5, "");
+    }
+
+    public Boolean getOrganizer() {
+        return Boolean.parseBoolean(Pref.getString(KEY_ORGANIZER, "false"));
+    }
 }

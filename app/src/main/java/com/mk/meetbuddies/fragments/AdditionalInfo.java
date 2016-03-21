@@ -1,15 +1,11 @@
 package com.mk.meetbuddies.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -30,14 +26,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdditionalInfo extends Dialog  implements View.OnClickListener {
+public class AdditionalInfo extends Dialog implements View.OnClickListener {
 
     private TextView group;
     private MultiSpinner preferences;
-    private  CheckBox organizer;
+    private CheckBox organizer;
     private String groupName;
     private List<String> pref;
-    private  Boolean organizerStatus;
+    private Boolean organizerStatus;
     private UpdateTask upTask = null;
     private Button validateBtn;
 
@@ -54,7 +50,7 @@ public class AdditionalInfo extends Dialog  implements View.OnClickListener {
         preferences = (MultiSpinner) findViewById(R.id.preferences);
         organizer = (CheckBox) findViewById(R.id.organizer);
         preferences.setSelection(0);
-        validateBtn= (Button)findViewById(R.id.validateBtn);
+        validateBtn = (Button) findViewById(R.id.validateBtn);
         validateBtn.setOnClickListener(this);
         groupName = group.getText().toString();
         pref = preferences.getSelectedStrings();
@@ -62,6 +58,7 @@ public class AdditionalInfo extends Dialog  implements View.OnClickListener {
         if (organizer.isChecked()) organizerStatus = true;
 
     }
+
     public boolean verify() {
         if (group.getText().toString().equals("")) {
             group.setError("Empty Field Group Name");
@@ -75,6 +72,7 @@ public class AdditionalInfo extends Dialog  implements View.OnClickListener {
         return true;
 
     }
+
     public class UpdateTask extends AsyncTask<String, String, String> {
 
         private final String mGroup;
@@ -114,14 +112,15 @@ public class AdditionalInfo extends Dialog  implements View.OnClickListener {
                 int success = json.getInt("success");
                 if (success == 1) {
                     SessionManager session = new SessionManager(getContext());
-                    session.updateUser(mGroup, mPref.get(0), mPref.get(1), mPref.get(2), mPref.get(3), mPref.get(4), mOrganizer);
                     DataBaseConnector db = new DataBaseConnector(getContext());
                     Cursor cursor = db.getAllUsers();
                     if (cursor.moveToFirst()) {
                         id = cursor.getInt(0);
                     }
+                    session.updateUser(mGroup, mPref.get(0), mPref.get(1), mPref.get(2), mPref.get(3), mPref.get(4), mOrganizer);
                     db.addInfo(id, mGroup, mPref.get(0), mPref.get(1), mPref.get(2), mPref.get(3), mPref.get(4), mOrganizer);
                     return "success";
+
 
                 } else {
                     msg = json.getString("message");
