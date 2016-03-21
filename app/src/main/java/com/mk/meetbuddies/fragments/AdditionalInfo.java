@@ -101,10 +101,10 @@ public class AdditionalInfo extends Dialog implements View.OnClickListener {
             ArrayList<NameValuePair> parames = new ArrayList<NameValuePair>();
             parames.add(new BasicNameValuePair("group", mGroup));
             parames.add(new BasicNameValuePair("pref1", perfs[0]));
-            parames.add(new BasicNameValuePair("pref1", perfs[1]));
-            parames.add(new BasicNameValuePair("pref1", perfs[2]));
-            parames.add(new BasicNameValuePair("pref1", perfs[3]));
-            parames.add(new BasicNameValuePair("pref1", perfs[4]));
+            parames.add(new BasicNameValuePair("pref2", perfs[1]));
+            parames.add(new BasicNameValuePair("pref3", perfs[2]));
+            parames.add(new BasicNameValuePair("pref4", perfs[3]));
+            parames.add(new BasicNameValuePair("pref5", perfs[4]));
             parames.add(new BasicNameValuePair("organnizer", mOrganizer.toString()));
 
             JSONParser jParser = new JSONParser();

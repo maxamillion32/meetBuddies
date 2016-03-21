@@ -25,7 +25,7 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         DataBaseConnector db = new DataBaseConnector(Splash.this);
-        if (db.getAllUsers().getCount() > 0) {
+        if ((db.verifyTable()) && (db.getAllUsers().getCount() > 0)) {
             startActivity(new Intent(Splash.this, MainActivity.class));
         } else {
             getSupportActionBar().hide();//Hiding ActionBar

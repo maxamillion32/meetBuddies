@@ -1,6 +1,7 @@
 package com.mk.utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -20,7 +21,7 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         String req = "CREATE TABLE "
                 + TABLE_USER
-                + " (_id INTEGER PRIMARY KEY,name TEXT ,prename TEXT ,login TEXT, password TEXT, photo TEXT, adress TEXT, group TEXT, pref1 TEXT, pref2 TEXT, pref3 TEXT, pref4 TEXT, pref5 TEXT, organizer TEXT);)";
+                + " (_id INTEGER PRIMARY KEY,name TEXT ,prename TEXT ,login TEXT, password TEXT, photo TEXT, adress TEXT, groupN TEXT, pref1 TEXT, pref2 TEXT, pref3 TEXT, pref4 TEXT, pref5 TEXT, organizer TEXT);)";
         db.execSQL(req);
     }
 
@@ -28,6 +29,19 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE " + TABLE_USER + ";");
         onCreate(db);
+    }
+
+    public Boolean verifyTable(SQLiteDatabase db) {
+        String req = "select DISTINCT tbl_name from sqlite_master where tbl_name = '" + TABLE_USER + "'";
+        Cursor cursor = db.rawQuery(req, null);
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
     }
 
 }

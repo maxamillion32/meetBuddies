@@ -15,7 +15,7 @@ public class SessionManager {
     public static final String KEY_ID = "id";
     public static final String KEY_PHOTOURL = "photo";
     public static final String KEY_ADRESS = "adress";
-    public static final String KEY_GROUP = "group";
+    public static final String KEY_GROUP = "groupN";
     public static final String KEY_PREF1 = "pref1";
     public static final String KEY_PREF2 = "pref2";
     public static final String KEY_PREF3 = "pref3";
