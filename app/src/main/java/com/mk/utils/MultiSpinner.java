@@ -27,6 +27,10 @@ public class MultiSpinner extends Spinner implements OnMultiChoiceClickListener 
     String[] _items = {"Cafteria", "Stadium", "Parc", "Cinema", "Theatre", "Gym", "School", "Bar"};
     boolean[] _selection = new boolean[_items.length];;
 
+    public void set_selection(boolean[] _selection) {
+        this._selection = _selection;
+    }
+
     ArrayAdapter<String> _proxyAdapter;
 
     /**

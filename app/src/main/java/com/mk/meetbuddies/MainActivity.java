@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity
                 if((cursor.getInt(7) == -1)&&(cursor.getString(8).equals(""))){
                     // open popup
                     FragmentManager fm = getSupportFragmentManager();
-                    AdditionalInfo fd = new AdditionalInfo();
-                    fd.show(fm, "Additional Info");
+                    AdditionalInfo fd = new AdditionalInfo(this);
+                    fd.show();
+                    fd.setCanceledOnTouchOutside(false);
                 }
             } while (cursor.moveToNext());
         }
