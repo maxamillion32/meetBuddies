@@ -12,7 +12,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/user_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -23,13 +23,15 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Android Studio"
+        android:textSize="12pt"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/user_fullName" />
 
     <TextView
-        android:id="@+id/user_adress"
+        android:id="@+id/user_group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8pt"
         android:text="android.studio@android.com" />
 
 </LinearLayout>

@@ -35,6 +35,11 @@ public class DataBaseConnector {
         cv.put("prename", prename);
         cv.put("login", login);
         cv.put("password", password);
+        if(photoUrl.equals(null)||photoUrl.equals("") ){
+            cv.put("photo", "http://meetbuddies.net16.net/images/users/profile.png");
+        }else{
+            cv.put("photo", photoUrl);
+        }
         cv.put("photo", photoUrl);
         cv.put("adress", adress);
         cv.put("organizer", "");

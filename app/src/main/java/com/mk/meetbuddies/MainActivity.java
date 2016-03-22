@@ -1,7 +1,13 @@
 package com.mk.meetbuddies;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,9 +19,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mk.meetbuddies.fragments.AdditionalInfo;
 import com.mk.meetbuddies.fragments.BuddiesFragment;
@@ -27,15 +36,28 @@ import com.mk.meetbuddies.fragments.MeetingsFragment;
 import com.mk.meetbuddies.fragments.ProfileFragment;
 import com.mk.utils.DataBaseConnector;
 
+import com.mk.utils.DownloadImg;
+import com.mk.utils.ImageUtils;
+import com.mk.utils.SessionManager;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private ImageView profilepic;
+    private TextView userFull_name, user_group;
+    private SessionManager session;
+    private NavigationView navigationView;
+    private View nav_header;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        profilepic=(ImageView)findViewById(R.id.user_photo);
+
+        session=new SessionManager(MainActivity.this);
+
 
         DataBaseConnector db = new DataBaseConnector(MainActivity.this);
         Cursor cursor = db.getAllUsers();
@@ -69,12 +91,17 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_home));
 
-    }
+        nav_header = navigationView.getHeaderView(0);
+        userFull_name=((TextView) nav_header.findViewById(R.id.user_fullName));
+        user_group=((TextView) nav_header.findViewById(R.id.user_group_name));
+        profilepic=((ImageView) nav_header.findViewById(R.id.user_photo));
+        setUserInfoInMenu();
+  }
 
     @Override
     public void onBackPressed() {
@@ -82,7 +109,29 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage("Are you sure,You Want to Quit");
+
+            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+
+            alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // finish();
+                }
+            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
     }
 
@@ -144,5 +193,12 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void setUserInfoInMenu(){ // Setting User Data (Namen Group and profile picture) in header
+        userFull_name.setText(session.getName() + " " + session.getPrename());
+        user_group.setText("Group : " + session.getGroup());
+        String imageUrl=session.getPhotourl();
+        DownloadImg down= new DownloadImg();
+        down.getImage(profilepic, imageUrl);
+     }
 
 }

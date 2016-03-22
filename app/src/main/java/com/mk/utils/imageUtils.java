@@ -2,6 +2,8 @@ package com.mk.utils;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.widget.Toast;
@@ -15,6 +17,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -39,6 +44,7 @@ public class ImageUtils {
         this.targetActivity=c;
 
     }
+    public ImageUtils(){}
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -53,7 +59,7 @@ public class ImageUtils {
         final ProgressDialog[] loading = {null};
         targetActivity.runOnUiThread(new Runnable() {
             public void run() {
-              loading[0] = ProgressDialog.show(targetActivity,"Uploading...","Please wait...",false,false);
+                loading[0] = ProgressDialog.show(targetActivity, "Uploading...", "Please wait...", false, false);
             }
         });
 
@@ -114,6 +120,47 @@ public class ImageUtils {
 
         //Adding request to the queue
         requestQueue.add(stringRequest);
+    }
+    public Bitmap getImage(String imgUrl) {
+        final Bitmap[] remoteImg = new Bitmap[1];
+        class GetImage extends AsyncTask<String,Void,Bitmap> {
+            //ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+               // loading = ProgressDialog.show(ViewImage.this, "Uploading...", null,true,true);
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap b) {
+                super.onPostExecute(b);
+              //  loading.dismiss();
+             //   imageView.setImageBitmap(b);
+            }
+
+            @Override
+            protected Bitmap doInBackground(String... params) {
+                System.out.println("Downloading");
+                String imageUrl = params[0];
+                URL url = null;
+                Bitmap image = null;
+                try {
+                    url = new URL(imageUrl);
+                    image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    remoteImg[0] =image;
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return image;
+            }
+        }
+
+        GetImage gi = new GetImage();
+        gi.execute(imgUrl);
+        return remoteImg[0];
     }
 }
 
