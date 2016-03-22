@@ -13,6 +13,7 @@ public class SessionManager {
     public static final String KEY_NAME = "name";
     public static final String KEY_PRENAME = "prename";
     public static final String KEY_ID = "id";
+    public static final String KEY_LOGIN = "login";
     public static final String KEY_PHOTOURL = "photo";
     public static final String KEY_ADRESS = "adress";
     public static final String KEY_GROUP = "groupN";
@@ -23,6 +24,7 @@ public class SessionManager {
     public static final String KEY_PREF5 = "pref5";
     public static final String KEY_ORGANIZER = "organizer";
     public static final String KEY_IS_GROUP_OR = "hisGroupOrganizer";
+    public static final String KEY_PHONE = "phone";
 
     public SessionManager(Context cont) {
         Context = cont;
@@ -43,7 +45,7 @@ public class SessionManager {
         editor.putString(KEY_PREF4, pref4);
         editor.putString(KEY_PREF5, pref5);
         editor.putString(KEY_PREF1, currentLocation);
-        editor.putBoolean(KEY_IS_GROUP_OR,hisGroupOrg);
+        editor.putBoolean(KEY_IS_GROUP_OR, hisGroupOrg);
         editor.commit();
     }
 
@@ -58,6 +60,15 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void modifyUser(String name, String prename, String photo, String address, String phone) {
+        editor.putString(KEY_NAME, name);
+        editor.putString(KEY_PRENAME, prename);
+        editor.putString(KEY_PHOTOURL, photo);
+        editor.putString(KEY_ADRESS, address);
+        editor.putString(KEY_PHONE, phone);
+        editor.commit();
+    }
+
     public void logoutUser() {
         editor.clear();
         editor.commit();
@@ -67,6 +78,10 @@ public class SessionManager {
     public int getId() {
         int id = Integer.parseInt(Pref.getString(KEY_ID, "0"));
         return id;
+    }
+
+    public String getLogin() {
+        return Pref.getString(KEY_LOGIN, "");
     }
 
     public String getName() {
