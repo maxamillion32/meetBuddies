@@ -121,5 +121,30 @@ public class DataBaseConnector {
         open();
         return dbOpenHelper.verifyTable(db);
     }
+    public Boolean verifyTableCalendar(){
+        open();
+        return dbOpenHelper.VerifyCalendar(db);
+    }
+    public void addCalendarInfo(String id, String title, String date, String time){
+        ContentValues cv = new ContentValues();
+        cv.put("_id", id);
+        cv.put("title", title);
+        cv.put("date", date);
+        cv.put("time", time);
+        open();
+        dbOpenHelper.onUpgrade(db, 0, 1);
+        db.insert(DataBaseOpenHelper.TABLE_CALENDAR, null, cv);
+        close();
+    }
+    public void updateCalendarInfo(String id, String title, String date, String time){
+        ContentValues cv = new ContentValues();
+        cv.put("title", title);
+        cv.put("date", date);
+        cv.put("time", time);
+        open();
+        db.update(DataBaseOpenHelper.TABLE_CALENDAR, cv, "_id=" + id, null);
+        close();
+    }
+
 
 }
