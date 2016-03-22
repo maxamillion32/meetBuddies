@@ -150,7 +150,7 @@ public class SignUp extends AppCompatActivity{
         }
 
          if (adress.getText().toString().equals("")) {
-            password.setError("Empty Field address");
+             adress.setError("Empty Field address");
             return false;
         }
         if(password.getText().toString().equals(confirmPass.getText().toString())==false){

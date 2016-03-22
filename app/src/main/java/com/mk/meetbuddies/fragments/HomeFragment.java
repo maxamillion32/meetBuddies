@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         user.setTypeface(font);
         welcome.setTypeface(welcomeFont);
         groupLabel.setText(session.getGroup());
+
         double latitude=0;
         double longitude=0;
         if(gps.canGetLocation()) {
