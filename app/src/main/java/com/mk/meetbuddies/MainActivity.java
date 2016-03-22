@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_home));
 
         nav_header = navigationView.getHeaderView(0);
+
         userFull_name=((TextView) nav_header.findViewById(R.id.user_fullName));
         user_group=((TextView) nav_header.findViewById(R.id.user_group_name));
         profilepic=((ImageView) nav_header.findViewById(R.id.user_photo));
@@ -197,8 +198,10 @@ public class MainActivity extends AppCompatActivity
         userFull_name.setText(session.getName() + " " + session.getPrename());
         user_group.setText("Group : " + session.getGroup());
         String imageUrl=session.getPhotourl();
+        System.out.println(imageUrl);
         DownloadImg down= new DownloadImg();
         down.getImage(profilepic, imageUrl);
+
      }
 
 }
