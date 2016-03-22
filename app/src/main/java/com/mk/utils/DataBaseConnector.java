@@ -73,6 +73,19 @@ public class DataBaseConnector {
         close();
     }
 
+    public void modifyUser(int id, String name, String prename, String photoUrl, String adress, String phone) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", name);
+        cv.put("prename", prename);
+        cv.put("photo", photoUrl);
+        cv.put("adress", adress);
+        cv.put("phone", phone);
+
+        open();
+        db.update(DataBaseOpenHelper.TABLE_USER, cv, "_id=" + id, null);
+        close();
+    }
+
     public void addInfo(int id, String group, String p1, String p2, String p3, String p4, String p5, Boolean organisateur) {
         ContentValues cv = new ContentValues();
         cv.put("groupN", group);
