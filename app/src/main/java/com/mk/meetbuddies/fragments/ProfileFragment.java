@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     EditText lastName, firstName, address, phone;
     Button btnOk, btnCancel;
@@ -57,22 +57,7 @@ public class ProfileFragment extends Fragment {
 
         btnOk = (Button) view.findViewById(R.id.bokPro);
         btnCancel = (Button) view.findViewById(R.id.bcancel);
-        btnOk.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                updateUserInfo();
-            }
-
-        });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                clear();
-            }
-
-        });
         /*profilePic.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -134,6 +119,20 @@ public class ProfileFragment extends Fragment {
         } else {
             mUpdateUser = new UpdateUserTask(id, firstName.getText().toString(), lastName.getText().toString(), address.getText().toString(), phone.getText().toString());
             mUpdateUser.execute();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bokPro:
+                updateUserInfo();
+                break;
+            case R.id.bcancelPro:
+                clear();
+                break;
+            default:
+                break;
         }
     }
 
