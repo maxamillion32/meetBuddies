@@ -189,7 +189,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             fragment = new LogoutFragment();
         } else if (id == R.id.nav_energy) {
-            fragment = new EnergyFragment(MainActivity.this);
+            EnergyFragment frag= new EnergyFragment();
+            frag.setContext(MainActivity.this);
+            fragment = frag;
         }
         setTitle(item.getTitle());
 

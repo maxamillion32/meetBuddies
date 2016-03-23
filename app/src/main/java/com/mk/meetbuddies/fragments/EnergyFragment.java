@@ -21,14 +21,15 @@ public class EnergyFragment extends Fragment {
     public EnergyConsumptionUtils energyUtils;
     private TextView cpu, memory, battery;
     Context context;
-    public EnergyFragment(Context c) {
-    this.context=c;
-    }
+     public EnergyFragment(){}
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_energy, container, false);
+
         energyUtils = new EnergyConsumptionUtils(getContext());
         cpu = (TextView) view.findViewById(R.id.cpu);
         memory = (TextView) view.findViewById(R.id.memory);
@@ -46,10 +47,10 @@ public class EnergyFragment extends Fragment {
                                 String memUsage = Long.toString(energyUtils.getMemoryUsage());
                                 String memSize = Long.toString(energyUtils.getUsedMemorySize());
                                 String memUse = memSize + "/" + memUsage;
-                             //   String batLevel = Float.toHexString(energyUtils.getBatteryLevel(getContext()));
-                                cpu.setText(cpuUse +" %");
+                                //   String batLevel = Float.toHexString(energyUtils.getBatteryLevel(getContext()));
+                                cpu.setText(cpuUse + " %");
                                 memory.setText(memUse);
-                              //  battery.setText(batLevel);
+                                //  battery.setText(batLevel);
                             }
                         });
                     }
@@ -60,5 +61,9 @@ public class EnergyFragment extends Fragment {
         t.start();
         return view;
     }
+public void setContext(Context c)
+    {
+        this.context=c;
 
+    }
 }

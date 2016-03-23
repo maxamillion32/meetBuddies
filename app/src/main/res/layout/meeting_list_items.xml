@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    >
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="10dp"
+        tools:text="Location"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textViewLocation" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        tools:text="0000-00-00"
+        android:layout_below="@+id/location"
+        android:layout_alignStart="@+id/location" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        tools:text="00-00-00"
+        android:layout_above="@+id/textViewDescription"
+        android:layout_alignStart="@+id/date" />
+
+    <TextView
+        tools:text="description"
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_alignTop="@+id/textViewDescription"
+        android:layout_alignStart="@+id/date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="Location:"
+        android:id="@+id/textViewLocation"
+        android:layout_alignTop="@+id/location"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textViewDescription"
+        android:autoText="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="Time:"
+        android:id="@+id/textViewTime"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Description:"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:id="@+id/textViewDescription"
+        android:layout_below="@+id/textViewTime"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="Date:"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/textViewLocation"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
