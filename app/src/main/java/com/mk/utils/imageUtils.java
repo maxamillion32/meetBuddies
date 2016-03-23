@@ -3,9 +3,11 @@ package com.mk.utils;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,8 +49,10 @@ public class ImageUtils {
     public ImageUtils(){}
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        //byte[] imageBytes = baos.toByteArray();
+        byte[] imageBytes = new byte[3000];
+
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
@@ -98,7 +102,8 @@ public class ImageUtils {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 //Converting Bitmap to String
-                String image = getStringImage(bitmap);
+
+                String image = encodeTobase64(bitmap);//getStringImage(bitmap);
 
                 //Getting Image Name
                 String name= fileName;
@@ -161,6 +166,53 @@ public class ImageUtils {
         GetImage gi = new GetImage();
         gi.execute(imgUrl);
         return remoteImg[0];
+    }
+    public static String encodeTobase64(Bitmap image) {
+        int initilaWidth = image.getWidth();
+        int initialHeight=image.getHeight();
+
+        if(initialHeight>2500 || initialHeight>2500){ //Editing image size in order to compress it and reduice memory usage
+            image=getScaledBitmap(image,initilaWidth/3,initialHeight/3);
+        }else{
+            if(initialHeight>1200 || initialHeight>1200){
+                image=getScaledBitmap(image,initilaWidth/2,initialHeight/2);
+            }
+        }
+
+        image.getWidth();
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp=null;
+        try{
+            System.gc();
+            temp=Base64.encodeToString(b, Base64.DEFAULT);
+        }catch(Exception e){
+            e.printStackTrace();
+        }catch(OutOfMemoryError e){
+            baos=new  ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.PNG,50, baos);
+            b=baos.toByteArray();
+            temp=Base64.encodeToString(b, Base64.DEFAULT);
+            Log.e("EWN", "Out of memory error catched");
+        }
+        return temp;
+    }
+    public static Bitmap getScaledBitmap(Bitmap bitmap, int newWidth, int newHeight)
+    {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // RECREATE THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
+        return resizedBitmap;
     }
 }
 

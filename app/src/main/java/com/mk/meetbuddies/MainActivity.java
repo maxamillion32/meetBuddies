@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.mk.meetbuddies.fragments.AdditionalInfo;
 import com.mk.meetbuddies.fragments.BuddiesFragment;
 import com.mk.meetbuddies.fragments.CalendarFragment;
+import com.mk.meetbuddies.fragments.EnergyFragment;
 import com.mk.meetbuddies.fragments.HomeFragment;
 import com.mk.meetbuddies.fragments.LocationsFragment;
 import com.mk.meetbuddies.fragments.LogoutFragment;
@@ -187,6 +188,8 @@ public class MainActivity extends AppCompatActivity
             fragment = new MeetingsFragment();
         } else if (id == R.id.nav_logout) {
             fragment = new LogoutFragment();
+        } else if (id == R.id.nav_energy) {
+            fragment = new EnergyFragment(MainActivity.this);
         }
         setTitle(item.getTitle());
 

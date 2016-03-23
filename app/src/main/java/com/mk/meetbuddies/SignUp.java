@@ -206,12 +206,16 @@ public class SignUp extends AppCompatActivity{
 
             Log.i("response http", json.toString());
             if(filePath!= null){
+
                 Thread t= new Thread(new Runnable() {
                     @Override
                     public void run() {
+
                         img= new ImageUtils(UPLOAD_URL,bitmap, mPhotoUrl,SignUp.this);
                         img.uploadImage();
                     }
+
+
                 });
                 t.start();
 
@@ -220,7 +224,7 @@ public class SignUp extends AppCompatActivity{
 
             try {
                 synchronized (this) {
-                    wait(7000);
+                    wait(8000);
                     int success = json.getInt("success");
 
                     if (success == 1) {

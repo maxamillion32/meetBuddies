@@ -2,6 +2,9 @@ package com.mk.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -14,10 +17,12 @@ import java.util.regex.Pattern;
  */
 public class EnergyConsumptionUtils {
     Context mContext;
-    EnergyConsumptionUtils( Context mCont){
-         this.mContext=mCont;
+
+    public EnergyConsumptionUtils(Context mCont) {
+        this.mContext = mCont;
     }
-    private float readUsage() { //Measure CPU Usage
+
+    public float readUsage() { //Measure CPU Usage
         try {
             RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
             String load = reader.readLine();
@@ -30,7 +35,8 @@ public class EnergyConsumptionUtils {
 
             try {
                 Thread.sleep(360);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
 
             reader.seek(0);
             load = reader.readLine();
@@ -42,7 +48,7 @@ public class EnergyConsumptionUtils {
             long cpu2 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) + Long.parseLong(toks[5])
                     + Long.parseLong(toks[6]) + Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
 
-            return (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
+            return (float) (cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -50,9 +56,10 @@ public class EnergyConsumptionUtils {
 
         return 0;
     }
-    private long getMemoryUsage (){
+
+    public long getMemoryUsage() {
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
-        ActivityManager activityManager = (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         activityManager.getMemoryInfo(mi);
         long availableMegs = mi.availMem / 1048576L;
 
@@ -61,6 +68,7 @@ public class EnergyConsumptionUtils {
         return availableMegs;
 
     }
+
     public static long getUsedMemorySize() {
 
         long freeSize = 0L;
@@ -77,13 +85,14 @@ public class EnergyConsumptionUtils {
         return usedSize;
 
     }
+
     private int getNumCores() { // Get NUmber Of Cores
         //Private Class to display only CPU devices in the directory listing
         class CpuFilter implements FileFilter {
             @Override
             public boolean accept(File pathname) {
                 //Check if filename is "cpu", followed by a single digit number
-                if(Pattern.matches("cpu[0-9]+", pathname.getName())) {
+                if (Pattern.matches("cpu[0-9]+", pathname.getName())) {
                     return true;
                 }
                 return false;
@@ -97,10 +106,23 @@ public class EnergyConsumptionUtils {
             File[] files = dir.listFiles(new CpuFilter());
             //Return the number of cores (virtual CPU devices)
             return files.length;
-        } catch(Exception e) {
+        } catch (Exception e) {
             //Default to return 1 core
             return 1;
         }
+    }
+
+    public float getBatteryLevel(Context context) {
+        Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        // Error checking that probably isn't needed but I added just in case.
+        if (level == -1 || scale == -1) {
+            return 50.0f;
+        }
+
+        return ((float) level / (float) scale) * 100.f;
     }
 
 }
