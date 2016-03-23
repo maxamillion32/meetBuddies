@@ -25,6 +25,8 @@ public class SessionManager {
     public static final String KEY_ORGANIZER = "organizer";
     public static final String KEY_IS_GROUP_OR = "hisGroupOrganizer";
     public static final String KEY_PHONE = "phone";
+    public static final String KEY_LAT = "lat";
+    public static final String KEY_LON = "lon";
 
     public SessionManager(Context cont) {
         Context = cont;
@@ -66,6 +68,12 @@ public class SessionManager {
         editor.putString(KEY_PHOTOURL, photo);
         editor.putString(KEY_ADRESS, address);
         editor.putString(KEY_PHONE, phone);
+        editor.commit();
+    }
+
+    public void modifyPosition(float lat, float lon) {
+        editor.putFloat(KEY_LAT, lat);
+        editor.putFloat(KEY_LON, lon);
         editor.commit();
     }
 
@@ -130,5 +138,13 @@ public class SessionManager {
 
     public Boolean getOrganizer() {
         return Boolean.parseBoolean(Pref.getString(KEY_ORGANIZER, "false"));
+    }
+
+    public Long getLat() {
+        return Pref.getLong(KEY_LAT, 0);
+    }
+
+    public Long getLon() {
+        return Pref.getLong(KEY_LON, 0);
     }
 }

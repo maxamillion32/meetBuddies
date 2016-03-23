@@ -1,11 +1,7 @@
 package com.mk.meetbuddies.fragments;
 
-/**
- * Created by mourad on 2016-03-21.
- */
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mk.meetbuddies.R;
+import com.mk.utils.DownloadImg;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 public class BuddiesAdapter extends ArrayAdapter<Buddies> {
@@ -39,11 +38,12 @@ public class BuddiesAdapter extends ArrayAdapter<Buddies> {
             convertView.setTag(viewHolder);
         }
 
-        //getItem(position) va récupérer l'item [position] de la List<Tweet> tweets
+        //getItem(position) va récupérer l'item [position] de la List<Buddies> buddies
         Buddies buddie = getItem(position);
-        viewHolder.pseudo.setText(buddie.getPseudo());
-        viewHolder.text.setText(buddie.getText());
-        viewHolder.avatar.setImageDrawable(Drawable.createFromPath(buddie.getAvatar()));
+        viewHolder.pseudo.setText(buddie.getName()+ ""+ buddie.getPrename());
+        viewHolder.text.setText(buddie.getLogin());
+        DownloadImg down = new DownloadImg();
+        down.getImage((ImageView) convertView.findViewById(R.id.avatar), buddie.getPhoto());
 
         return convertView;
     }
