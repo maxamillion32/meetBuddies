@@ -4,22 +4,22 @@ package com.mk.meetbuddies.fragments;
  * Created by mourad on 2016-03-21.
  */
 public class Buddies {
-    private int color;
+    private String avatar;
     private String pseudo;
     private String text;
 
-    public Buddies(int color, String pseudo, String text) {
-        this.color = color;
+    public Buddies(String avatar, String pseudo, String text) {
+        this.avatar = avatar;
         this.pseudo = pseudo;
         this.text = text;
     }
 
-    public int getColor() {
-        return color;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setColor(int color) {
-        this.color = color;
+    public void setColor(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getPseudo() {

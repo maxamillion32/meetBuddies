@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,15 @@ import android.widget.ListView;
 
 import com.mk.meetbuddies.MainActivity;
 import com.mk.meetbuddies.R;
+import com.mk.utils.DownloadImg;
+import com.mk.utils.JSONParser;
+import com.mk.utils.SessionManager;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +33,8 @@ import java.util.List;
 public class BuddiesFragment extends Fragment {
 
     ListView mListView;
-    String[] prenoms = new String[]{
-            "Antoine", "Benoit", "Cyril", "David", "Eloise", "Florent",
-            "Gerard", "Hugo", "Ingrid", "Jonathan", "Kevin", "Logan",
-            "Mathieu", "Noemie", "Olivia", "Philippe", "Quentin", "Romain",
-            "Sophie", "Tristan", "Ulric", "Vincent", "Willy", "Xavier",
-            "Yann", "Zoé"
-    };
     public BuddiesFragment() {
         // Required empty public constructor
-        int cas;
     }
 
 
@@ -40,36 +42,48 @@ public class BuddiesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-     //   this.getParentFragment().
         View view = inflater.inflate(R.layout.fragment_buddies, container, false);
-
         mListView = (ListView) view.findViewById(R.id.buddiesListView);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1, prenoms);
-        //mListView.setAdapter(adapter);
         afficherListeBuddies();
         return view;
     }
 
-    private void afficherListeNoms(){
-        //android.R.layout.simple_list_item_1 est une vue disponible de base dans le SDK android,
-        //Contenant une TextView avec comme identifiant "@android:id/text1"
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, prenoms);
+    private void afficherListeBuddies(){
+        List<Buddies> buddies = genererBuddies();
+        BuddiesAdapter adapter = new BuddiesAdapter(getActivity().getApplicationContext(), buddies);
         mListView.setAdapter(adapter);
     }
 
     private List<Buddies> genererBuddies(){
         List<Buddies> buddies = new ArrayList<Buddies>();
-        //boucle for et récupération de la base de données:
-        buddies.add(new Buddies(Color.BLACK, "Mourad Mamlouk", "mourad_mamlouk@gmail.com"));
-        return buddies;
+        SessionManager session = new SessionManager(getContext());
+        String mGroup=session.getGroup();
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+        param.add(new BasicNameValuePair("group", mGroup));
+
+        /*buddies.add(new Buddies(session.getPhotourl(), session.getGroup(), "mourad_mamlouk@gmail.com"));
+        return buddies;*/
+
+        JSONParser jParser = new JSONParser();
+        JSONObject json = jParser.makeHttpRequest("http://meetbuddies.net16.net/buddies.php", "GET", param);
+        Log.i("response http", json.toString());
+        try {
+            int success = json.getInt("success");
+            if (success == 1) {
+                JSONArray users = json.getJSONArray("User");
+                JSONObject user = users.getJSONObject(0);
+                buddies.add(new Buddies("", "kk", "mourad_mamlouk@gmail.com"));
+                return buddies;
+            }
+            else{
+                return null;
+            }
+
+        }catch(JSONException e){
+            return null;
+        }
+
     }
 
-    private void afficherListeBuddies(){
-        List<Buddies> buddies = genererBuddies();
-
-        BuddiesAdapter adapter = new BuddiesAdapter(getActivity().getApplicationContext(), buddies);
-        mListView.setAdapter(adapter);
-    }
 
 }
