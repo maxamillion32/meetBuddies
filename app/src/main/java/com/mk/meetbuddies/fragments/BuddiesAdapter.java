@@ -40,7 +40,7 @@ public class BuddiesAdapter extends ArrayAdapter<Buddies> {
 
         //getItem(position) va récupérer l'item [position] de la List<Buddies> buddies
         Buddies buddie = getItem(position);
-        viewHolder.pseudo.setText(buddie.getName()+ ""+ buddie.getPrename());
+        viewHolder.pseudo.setText(buddie.getName()+ " "+ buddie.getPrename());
         viewHolder.text.setText(buddie.getLogin());
         DownloadImg down = new DownloadImg();
         down.getImage((ImageView) convertView.findViewById(R.id.avatar), buddie.getPhoto());
