@@ -141,6 +141,7 @@ public class CalendarView extends LinearLayout
             @Override
             public void onClick(View v) {
                 currentDate.add(Calendar.MONTH, -1);
+
                 updateCalendar();
             }
         });

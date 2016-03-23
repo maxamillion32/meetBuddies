@@ -1,13 +1,16 @@
 package com.mk.meetbuddies;
 
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -40,6 +43,9 @@ import com.mk.utils.DownloadImg;
 import com.mk.utils.ImageUtils;
 import com.mk.utils.SessionManager;
 
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ImageView profilepic;
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         profilepic=(ImageView)findViewById(R.id.user_photo);
 
         session=new SessionManager(MainActivity.this);
+
 
 
         DataBaseConnector db = new DataBaseConnector(MainActivity.this);
@@ -102,6 +109,7 @@ public class MainActivity extends AppCompatActivity
         user_group=((TextView) nav_header.findViewById(R.id.user_group_name));
         profilepic=((ImageView) nav_header.findViewById(R.id.user_photo));
         setUserInfoInMenu();
+
   }
 
     @Override
@@ -151,9 +159,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+      /*  if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
