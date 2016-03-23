@@ -22,7 +22,6 @@ import com.mk.utils.SessionManager;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -100,6 +99,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     longitude = gps.getLongitude();
                     position.setText(gps.getLocationName(latitude, longitude));
                     mUpdateLocation = new UpdateLocationTask(latitude, longitude);
+                    mUpdateLocation.execute();
                 } else {
                     gps.showSettingsAlert();
                 }
@@ -144,8 +144,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             try {
                 int success = json.getInt("success");
                 if (success == 1) {
-                    JSONArray users = json.getJSONArray("User");
-                    JSONObject user = users.getJSONObject(0);
                     float la = (float) lat;
                     float lo = (float) lon;
                     session.modifyPosition(la, lo);
