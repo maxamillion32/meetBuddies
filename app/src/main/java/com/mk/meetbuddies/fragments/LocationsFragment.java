@@ -115,9 +115,15 @@ public class LocationsFragment extends Fragment {
                         prenames[i] = user.getString("prename");
                         logins[i] = user.getString("login");
                         String location = user.getString("location");
-                        String[] l = location.split("-");
-                        lat[i] = Double.parseDouble(l[0]);
-                        lon[i] = Double.parseDouble(l[1]);
+                        if (location.equals(null)) {
+                            lat[i] = Double.parseDouble("0");
+                            lon[i] = Double.parseDouble("0");
+                        } else {
+                            String[] l = location.split("-");
+                            lat[i] = Double.parseDouble(l[0]);
+                            lon[i] = Double.parseDouble(l[1]);
+                        }
+
                     }
                     return "success";
 
