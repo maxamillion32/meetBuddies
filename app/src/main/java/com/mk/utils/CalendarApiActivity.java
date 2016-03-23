@@ -316,16 +316,21 @@ public class CalendarApiActivity extends Activity {
             if (output == null || output.size() == 0) {
                 //mOutputText.setText("No results returned.");
                 Toast.makeText(CalendarApiActivity.this,"No results Events In Calendar ", Toast.LENGTH_LONG).show();
+                output.add(0, "No Data/(1900-07-30T22:00:00.000+01:00)");// Managing the Case that the user doesn't have any events on his calendar
+
+                storeCalendarInDb(output);
             } else {
               //  output.add(0, "Data retrieved using the Google Calendar API:");
 
                 //TODO Strore List in local Data Base (Done !! )
-                storeCalendarInDb(output);
-                Intent idash = new Intent(CalendarApiActivity.this, MainActivity.class);
-                startActivity(idash);
 
             }
+            storeCalendarInDb(output);
+            Intent idash = new Intent(CalendarApiActivity.this, MainActivity.class);
+            startActivity(idash);
+
         }
+
 
         @Override
         protected void onCancelled() {
@@ -358,6 +363,7 @@ public class CalendarApiActivity extends Activity {
         for(int i=0;i<cal.size();i++){
             String calendarItem= cal.get(i);
             //Formating Calendar Info
+            System.out.println(calendarItem);
             calendarItem.replace("(","/");
             String[] item=calendarItem.split("/");
             String title,date,time,id;
