@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             if (cursor.moveToFirst()) {
                 id = cursor.getInt(0);
             }
-            String current_loc = lat + "-" + lon;
+            String current_loc = lat + "," + lon;
             ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
             param.add(new BasicNameValuePair("id_usr", Integer.toString(id)));
             param.add(new BasicNameValuePair("current_location", current_loc));

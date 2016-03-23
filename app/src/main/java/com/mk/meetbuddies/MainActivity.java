@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private SessionManager session;
     private NavigationView navigationView;
     private View nav_header;
+    private  FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity
             } while (cursor.moveToNext());
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab = (FloatingActionButton) findViewById(R.id.fab);
         if (cursor.moveToFirst()) {
             if (cursor.getString(7).equals("false")) fab.hide();
         }
@@ -176,19 +177,26 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (id == R.id.nav_home) {
             fragment = new HomeFragment();
+            fab.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_profile) {
+            fab.setVisibility(View.VISIBLE);
             fragment = new ProfileFragment();
         } else if (id == R.id.nav_calendar) {
+            fab.setVisibility(View.VISIBLE);
             fragment = new CalendarFragment();
         } else if (id == R.id.nav_buddies) {
+            fab.setVisibility(View.VISIBLE);
             fragment = new BuddiesFragment();
         } else if (id == R.id.nav_locations) {
+            fab.setVisibility(View.INVISIBLE);
             fragment = new LocationsFragment();
         } else if (id == R.id.nav_meeting) {
+            fab.setVisibility(View.VISIBLE);
             fragment = new MeetingsFragment();
         } else if (id == R.id.nav_logout) {
             fragment = new LogoutFragment();
         } else if (id == R.id.nav_energy) {
+            fab.setVisibility(View.VISIBLE);
             EnergyFragment frag= new EnergyFragment();
             frag.setContext(MainActivity.this);
             fragment = frag;

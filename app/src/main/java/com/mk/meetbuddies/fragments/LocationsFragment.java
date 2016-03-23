@@ -47,6 +47,7 @@ public class LocationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_locations, container, false);
+
     }
 
     @Override
@@ -122,7 +123,7 @@ public class LocationsFragment extends Fragment {
                             lat[i] = Double.parseDouble("0");
                             lon[i] = Double.parseDouble("0");
                         } else {
-                            String[] l = location.split("-");
+                            String[] l = location.split(",");
                             lat[i] = Double.parseDouble(l[0]);
                             lon[i] = Double.parseDouble(l[1]);
                         }

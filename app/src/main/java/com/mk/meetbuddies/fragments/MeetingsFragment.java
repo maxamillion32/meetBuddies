@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mk.meetbuddies.R;
@@ -23,10 +24,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MeetingsFragment extends Fragment {
+public class MeetingsFragment extends Fragment{
 
 
     List<Meetings> meetings = new ArrayList<Meetings>();
@@ -80,18 +83,26 @@ public class MeetingsFragment extends Fragment {
                         meetings.add(new Meetings(location, date, time, description));
                     }if (users.length()>0)
                         return meetings;
-                    else return null;
+                    else {
+                        meetings.add(new Meetings("You Have No Meetings", "", "", ""));
+                        return meetings;
+                    }
                 } else {
-                    return null;
+                    meetings.add(new Meetings("You Have No Meetings", "", "", ""));
+
+                    return meetings;
                 }
 
             } catch (JSONException e) {
-                return null;
+                meetings.add(new Meetings("You Have No Meetings", "", "", ""));
+                return meetings;
+
             }
 
         }
         protected void onPostExecute(List<Meetings> meetings) {
             MeetingsAdapter adapter = new MeetingsAdapter(getActivity().getApplicationContext(), meetings);
+
             mListView.setAdapter(adapter);
             super.onPostExecute(meetings);
 

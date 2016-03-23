@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -258,9 +259,13 @@ public class SignUp extends AppCompatActivity{
             if (result.equals("success")) {
 
                 Toast.makeText(SignUp.this, msg, Toast.LENGTH_LONG).show();
-                Intent idash = new Intent(SignUp.this, LoginActivity.class);
-                startActivity(idash);
-
+                new Handler().postDelayed(new Runnable() {//Starting the LOgin activity after a delay to allow the profile picture to be uploaded
+                    @Override
+                    public void run() {
+                        final Intent mainIntent = new Intent(SignUp.this, LoginActivity.class);
+                        startActivity(mainIntent);
+                    }
+                }, 8000);
             }
             if (result.equals("fail")) {
 

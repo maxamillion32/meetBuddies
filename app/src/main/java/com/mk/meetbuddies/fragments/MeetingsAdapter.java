@@ -36,6 +36,12 @@ public class MeetingsAdapter extends ArrayAdapter<Meetings> {
             viewHolder.date = (TextView) convertView.findViewById(R.id.date);
             viewHolder.time = (TextView) convertView.findViewById(R.id.time);
             viewHolder.description = (TextView) convertView.findViewById(R.id.description);
+
+            viewHolder.locationLabel = (TextView) convertView.findViewById(R.id.textViewLocation);
+            viewHolder.dateLabel = (TextView) convertView.findViewById(R.id.textView2);
+            viewHolder.timeLabel = (TextView) convertView.findViewById(R.id.textViewTime);
+            viewHolder.descriptionLabel = (TextView) convertView.findViewById(R.id.textViewDescription);
+
         }
 
         //getItem(position) va récupérer l'item [position] de la List<Meetings> meetings
@@ -44,6 +50,17 @@ public class MeetingsAdapter extends ArrayAdapter<Meetings> {
         viewHolder.date.setText(meeting.getDate());
         viewHolder.time.setText(meeting.getTime());
         viewHolder.description.setText(meeting.getDescription());
+        if(viewHolder.location.getText()=="You Have No Meetings"){
+            viewHolder.locationLabel.setVisibility(View.INVISIBLE);
+            viewHolder.dateLabel.setVisibility(View.INVISIBLE);
+            viewHolder.timeLabel.setVisibility(View.INVISIBLE);
+            viewHolder.descriptionLabel.setVisibility(View.INVISIBLE);
+        }else{
+            viewHolder.locationLabel.setVisibility(View.VISIBLE);
+            viewHolder.dateLabel.setVisibility(View.VISIBLE);
+            viewHolder.timeLabel.setVisibility(View.VISIBLE);
+            viewHolder.descriptionLabel.setVisibility(View.VISIBLE);
+        }
 
         return convertView;
     }
@@ -53,7 +70,9 @@ public class MeetingsAdapter extends ArrayAdapter<Meetings> {
         public TextView date;
         public TextView time;
         public TextView description;
-
-
+        public TextView dateLabel;
+        public TextView timeLabel;
+        public TextView descriptionLabel;
+        public TextView locationLabel;
     }
 }
