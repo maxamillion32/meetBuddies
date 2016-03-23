@@ -1,40 +1,44 @@
 package com.mk.meetbuddies.fragments;
 
-/**
- * Created by mourad on 2016-03-21.
- */
 public class Buddies {
-    private String avatar;
-    private String pseudo;
-    private String text;
+    private String login, name, prename, photo;
 
-    public Buddies(String avatar, String pseudo, String text) {
-        this.avatar = avatar;
-        this.pseudo = pseudo;
-        this.text = text;
+    public Buddies(String login, String name, String prename, String photo) {
+        this.login = login;
+        this.name = name;
+        this.prename = prename;
+        this.photo = photo;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getLogin() {
+        return login;
     }
 
-    public void setColor(String avatar) {
-        this.avatar = avatar;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public String getName() {
+        return name;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getText() {
-        return text;
+    public String getPrename() {
+        return prename;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setPrename(String prename) {
+        this.prename = prename;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
