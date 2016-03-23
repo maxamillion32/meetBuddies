@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-
+import com.mk.utils.CalendarApiActivity;
 import com.mk.utils.DataBaseConnector;
+
 
 public class Splash extends AppCompatActivity {
     private Typeface font;
@@ -26,7 +27,8 @@ public class Splash extends AppCompatActivity {
 
         DataBaseConnector db = new DataBaseConnector(Splash.this);
         if ((db.verifyTable()) && (db.getAllUsers().getCount() > 0)) {
-            startActivity(new Intent(Splash.this, MainActivity.class));
+           // System.out.println("User connected");
+            startActivity(new Intent(Splash.this, CalendarApiActivity.class));//Main
         } else {
             getSupportActionBar().hide();//Hiding ActionBar
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -49,5 +51,6 @@ public class Splash extends AppCompatActivity {
         startActivity(new Intent(this, SignUp.class));
         this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
+
 
 }

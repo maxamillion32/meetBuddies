@@ -115,7 +115,7 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/signin_button"
                 android:layout_marginLeft="10dp"
-                android:text="Ok" />
+                android:text="Update" />
 
             <Button
                 android:id="@+id/bcancelPro"

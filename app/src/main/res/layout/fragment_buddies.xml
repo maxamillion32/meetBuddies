@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="My buddies"
+        android:text="My Buddies"
         android:textSize="20pt"
         android:textStyle="bold"
         android:id="@+id/myb"

@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataBaseOpenHelper extends SQLiteOpenHelper {
 
     public final static String TABLE_USER = "Users";
@@ -25,7 +28,7 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
                 + " (_id INTEGER PRIMARY KEY,name TEXT ,prename TEXT ,login TEXT, password TEXT, photo TEXT, adress TEXT, groupN TEXT, pref1 TEXT, pref2 TEXT, pref3 TEXT, pref4 TEXT, pref5 TEXT, organizer TEXT, lat DOUBLE PRECISION, lon DOUBLE PRECISION);)";
         String reqCalendar = "CREATE TABLE "
                 + TABLE_CALENDAR
-                + " (_id INTEGER PRIMARY KEY,title TEXT ,date TEXT ,time TEXT);)";
+                + " (_id TEXT PRIMARY KEY,title TEXT ,date TEXT ,time TEXT);)";
         db.execSQL(req);
         db.execSQL(reqCalendar);
     }
@@ -60,6 +63,35 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return false;
+    }
+   public Boolean VerifyCalendarItem(SQLiteDatabase db, String id){
+       String req = "select * from "+TABLE_CALENDAR+" where _id = '" + id + "'";
+       Cursor cursor = db.rawQuery(req, null);
+       if (cursor != null) {
+           if (cursor.getCount() > 0) {
+               cursor.close();
+               return true;
+           }
+           cursor.close();
+       }
+       return false;
+    }
+    public List<String> getCalendarData(SQLiteDatabase db){
+    List<String> myCalendarData = new ArrayList<String>();
+        String req = "select * from "+TABLE_CALENDAR+";";
+        Cursor cursor = db.rawQuery(req, null);
+        System.out.println(cursor.getCount());
+        if (cursor.moveToFirst()) {
+         do {
+                 myCalendarData.add(cursor.getString(1)+"/"+cursor.getString(2)+"/"+cursor.getString(3));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return myCalendarData;
+    }
+    public void cleanCalendar(SQLiteDatabase db){
+        db.execSQL("delete from "+ TABLE_CALENDAR);
     }
 
 }

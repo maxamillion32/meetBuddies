@@ -31,7 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.mk.utils.CalendarApiActivity;
 import com.mk.utils.DataBaseConnector;
 import com.mk.utils.JSONParser;
 import com.mk.utils.SessionManager;
@@ -396,7 +396,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success.equals("success")) {
                 SessionManager session = new SessionManager(LoginActivity.this);
                 Toast.makeText(LoginActivity.this, "Welcome " + session.getName() + "" + session.getPrename(), Toast.LENGTH_LONG).show();
-                Intent idash = new Intent(LoginActivity.this, MainActivity.class);
+                Intent idash = new Intent(LoginActivity.this, CalendarApiActivity.class);
+                //Intent idash = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(idash);
 
             }

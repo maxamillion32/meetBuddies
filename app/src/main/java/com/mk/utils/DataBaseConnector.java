@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+
 public class DataBaseConnector {
 
     String DATA_BASE_NAME = "a1878292_MeetBud";
@@ -156,7 +158,7 @@ public class DataBaseConnector {
         cv.put("date", date);
         cv.put("time", time);
         open();
-        dbOpenHelper.onUpgrade(db, 0, 1);
+     //   dbOpenHelper.onUpgrade(db, 0, 1);
         db.insert(DataBaseOpenHelper.TABLE_CALENDAR, null, cv);
         close();
     }
@@ -169,6 +171,19 @@ public class DataBaseConnector {
         open();
         db.update(DataBaseOpenHelper.TABLE_CALENDAR, cv, "_id=" + id, null);
         close();
+    }
+    public Boolean checkEventExist(String id){
+        open();
+        return dbOpenHelper.VerifyCalendarItem(db,id);
+
+    }
+    public List<String> getCalendarData(){
+        open();
+        return dbOpenHelper.getCalendarData(db);
+    }
+    public void cleanCalendar(){
+        open();
+        dbOpenHelper.cleanCalendar(db);
     }
 
 

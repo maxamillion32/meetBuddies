@@ -5,6 +5,11 @@
     <color name="colorAccent">#f93542</color>
     <color name="colorPrimaryLight">#f95c66</color>
     <color name="lightGray">#e7e6e6</color>
-
+    <color name="summer">#ecee8287</color>
+    <color name="fall">#9efa2d3b</color>
+    <color name="winter">#dbf13e5b</color>
+    <color name="spring">#afff4d50</color>
+    <color name="today">#fc1823</color>
+    <color name="greyed_out">#c7c7c7</color>
     <color name="black_overlay">#66000000</color>
 </resources>

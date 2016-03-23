@@ -9,4 +9,9 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+        <declare-styleable name="CalendarView">
+            <attr name="dateFormat" format="string"/>
+        </declare-styleable>
+
+
 </resources>
