@@ -86,6 +86,15 @@ public class DataBaseConnector {
         close();
     }
 
+    public void modifyPosition(int id, double lat, double lon) {
+        ContentValues cv = new ContentValues();
+        cv.put("lat", lat);
+        cv.put("lon", lon);
+        open();
+        db.update(DataBaseOpenHelper.TABLE_USER, cv, "_id=" + id, null);
+        close();
+    }
+
     public void addInfo(int id, String group, String p1, String p2, String p3, String p4, String p5, Boolean organisateur) {
         ContentValues cv = new ContentValues();
         cv.put("groupN", group);
@@ -130,15 +139,17 @@ public class DataBaseConnector {
         dbOpenHelper.onUpgrade(db, 0, 1);
     }
 
-    public Boolean verifyTable(){
+    public Boolean verifyTable() {
         open();
         return dbOpenHelper.verifyTable(db);
     }
-    public Boolean verifyTableCalendar(){
+
+    public Boolean verifyTableCalendar() {
         open();
         return dbOpenHelper.VerifyCalendar(db);
     }
-    public void addCalendarInfo(String id, String title, String date, String time){
+
+    public void addCalendarInfo(String id, String title, String date, String time) {
         ContentValues cv = new ContentValues();
         cv.put("_id", id);
         cv.put("title", title);
@@ -149,7 +160,8 @@ public class DataBaseConnector {
         db.insert(DataBaseOpenHelper.TABLE_CALENDAR, null, cv);
         close();
     }
-    public void updateCalendarInfo(String id, String title, String date, String time){
+
+    public void updateCalendarInfo(String id, String title, String date, String time) {
         ContentValues cv = new ContentValues();
         cv.put("title", title);
         cv.put("date", date);

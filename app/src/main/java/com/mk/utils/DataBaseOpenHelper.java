@@ -22,7 +22,7 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         String req = "CREATE TABLE "
                 + TABLE_USER
-                + " (_id INTEGER PRIMARY KEY,name TEXT ,prename TEXT ,login TEXT, password TEXT, photo TEXT, adress TEXT, groupN TEXT, pref1 TEXT, pref2 TEXT, pref3 TEXT, pref4 TEXT, pref5 TEXT, organizer TEXT);)";
+                + " (_id INTEGER PRIMARY KEY,name TEXT ,prename TEXT ,login TEXT, password TEXT, photo TEXT, adress TEXT, groupN TEXT, pref1 TEXT, pref2 TEXT, pref3 TEXT, pref4 TEXT, pref5 TEXT, organizer TEXT, lat DOUBLE PRECISION, lon DOUBLE PRECISION);)";
         String reqCalendar = "CREATE TABLE "
                 + TABLE_CALENDAR
                 + " (_id INTEGER PRIMARY KEY,title TEXT ,date TEXT ,time TEXT);)";
