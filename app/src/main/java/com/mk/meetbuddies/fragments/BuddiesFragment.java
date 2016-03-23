@@ -71,15 +71,16 @@ public class BuddiesFragment extends Fragment {
             List<Buddies> buddies = new ArrayList<Buddies>();
             SessionManager session = new SessionManager(getContext());
             String mGroup = session.getGroup();
+            int mId = session.getId();
             ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
             param.add(new BasicNameValuePair("group", mGroup));
-
+            param.add(new BasicNameValuePair("id", mId+""));
         /*buddies.add(new Buddies(session.getPhotourl(), session.getGroup(), "mourad_mamlouk@gmail.com"));
         return buddies;*/
 
             JSONParser jParser = new JSONParser();
             JSONObject json = jParser.makeHttpRequest("http://meetbuddies.net16.net/buddies.php", "GET", param);
-            Log.i("response http", json.toString());
+            Log.i("response http", mId+" - "+mGroup);
             try {
                 int success = json.getInt("success");
                 if (success == 1) {
@@ -91,7 +92,7 @@ public class BuddiesFragment extends Fragment {
                         String prename = user.getString("prename");
                         String photo = user.getString("photo");
                         buddies.add(new Buddies(login, name, prename, photo));
-                    }
+                     }
                     return buddies;
                 } else {
                     return null;
