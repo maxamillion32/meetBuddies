@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        gps = new MyGpsLocationListener(getContext());
         user = (TextView) view.findViewById(R.id.user_name);
         groupLabel = (TextView) view.findViewById(R.id.groupName);
         position = (TextView) view.findViewById(R.id.position);
@@ -57,7 +58,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         font = Typeface.createFromAsset(getActivity().getAssets(), "bariol.ttf");
         welcomeFont = Typeface.createFromAsset(getActivity().getAssets(), "ubuntu.ttf");
         updateLocation = (Button) view.findViewById(R.id.button_update_position);
-        gps = new MyGpsLocationListener(getContext());
+        updateLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double latitude = 0;
+                double longitude = 0;
+                System.out.println("BTN");
+                if (gps.canGetLocation()) {
+                    latitude = gps.getLatitude();
+                    longitude = gps.getLongitude();
+                    mUpdateLocation = new UpdateLocationTask(latitude, longitude);
+                    mUpdateLocation.execute();
+                    position.setText(gps.getLocationName(latitude, longitude));
+                } else {
+                    gps.showSettingsAlert();
+                }
+            }
+        });
         setUpDashboard();
         return view;
     }
