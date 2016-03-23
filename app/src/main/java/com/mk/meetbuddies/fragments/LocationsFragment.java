@@ -11,9 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mk.meetbuddies.R;
 import com.mk.utils.DataBaseConnector;
@@ -27,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,16 +65,9 @@ public class LocationsFragment extends Fragment {
         super.onResume();
         if (map == null) {
             map = fragment.getMap();
-            locationTask = new GetBuddiesLocationTask();
+            locationTask = new GetBuddiesLocationTask(map);
             locationTask.execute();
-            names = locationTask.getNames();
-            prenames = locationTask.getPrenames();
-            logins = locationTask.getLogins();
-            lat = locationTask.getLat();
-            lon = locationTask.getLon();
-            for (int i = 0; i < names.length; i++) {
-                map.addMarker(new MarkerOptions().position(new LatLng(lat[i], lon[i])).title(names[i] + " " + prenames[i]));
-            }
+
         }
     }
 
@@ -78,6 +76,11 @@ public class LocationsFragment extends Fragment {
         private int id = 0;
         private String[] names, prenames, logins;
         private Double[] lat, lon;
+        private GoogleMap map;
+
+        public GetBuddiesLocationTask(GoogleMap map) {
+            this.map = map;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -115,7 +118,7 @@ public class LocationsFragment extends Fragment {
                         prenames[i] = user.getString("prename");
                         logins[i] = user.getString("login");
                         String location = user.getString("location");
-                        if (location.equals(null)) {
+                        if (location.equals("null")) {
                             lat[i] = Double.parseDouble("0");
                             lon[i] = Double.parseDouble("0");
                         } else {
@@ -139,33 +142,36 @@ public class LocationsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String success) {
-
+            MarkerOptions[] markeurs;
+            LatLngBounds.Builder builder;
+            final CameraUpdate cu;
+            List<Marker> markersList = new ArrayList<Marker>();
             if (success.equals("success")) {
+                markeurs = new MarkerOptions[names.length];
+                for (int i = 0; i < names.length; i++) {
+                    markeurs[i] = new MarkerOptions().position(new LatLng(lat[i], lon[i])).title(names[i] + " " + prenames[i]);
+                    map.addMarker(markeurs[i]);
+                    markersList.add(map.addMarker(markeurs[i]));
+                }
+
+                builder = new LatLngBounds.Builder();
+                for (Marker m : markersList) {
+                    builder.include(m.getPosition());
+                }
+                int padding = 20;
+                LatLngBounds bounds = builder.build();
+                cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                    @Override
+                    public void onMapLoaded() {
+                        map.animateCamera(cu);
+                    }
+                });
 
             }
             if (success.equals("fail")) {
             }
             super.onPostExecute(success);
-        }
-
-        public String[] getNames() {
-            return names;
-        }
-
-        public String[] getPrenames() {
-            return prenames;
-        }
-
-        public String[] getLogins() {
-            return logins;
-        }
-
-        public Double[] getLat() {
-            return lat;
-        }
-
-        public Double[] getLon() {
-            return lon;
         }
     }
 }
