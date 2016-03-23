@@ -5,6 +5,7 @@ package com.mk.meetbuddies.fragments;
  */
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class BuddiesAdapter extends ArrayAdapter<Buddies> {
         Buddies buddie = getItem(position);
         viewHolder.pseudo.setText(buddie.getPseudo());
         viewHolder.text.setText(buddie.getText());
-        viewHolder.avatar.setImageDrawable(new ColorDrawable(buddie.getColor()));
+        viewHolder.avatar.setImageDrawable(Drawable.createFromPath(buddie.getAvatar()));
 
         return convertView;
     }
