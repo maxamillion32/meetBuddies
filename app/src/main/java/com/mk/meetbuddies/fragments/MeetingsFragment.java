@@ -1,6 +1,7 @@
 package com.mk.meetbuddies.fragments;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.mk.meetbuddies.MeetingDetailsActivity;
 import com.mk.meetbuddies.R;
 import com.mk.utils.JSONParser;
 import com.mk.utils.SessionManager;
@@ -24,7 +27,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.View.GONE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +50,32 @@ public class MeetingsFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_meetings, container, false);
         mListView = (ListView) view.findViewById(R.id.meetingsListView);
         afficherListeMeetings();
+
+
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> item, View arg1,
+                                    int position, long arg3) {
+
+                Intent t= new Intent(getContext(),MeetingDetailsActivity.class);
+
+                Meetings selectedMeeting= (Meetings)item.getItemAtPosition(position);
+                if(selectedMeeting.getDate()!=""){
+                    t.putExtra("location", selectedMeeting.getLocation());
+                    t.putExtra("date", selectedMeeting.getDate());
+                    t.putExtra("time", selectedMeeting.getTime());
+                    t.putExtra("description", selectedMeeting.getDescription());
+                    t.putExtra("id",selectedMeeting.getId());
+                    System.out.println(selectedMeeting.getName());
+                    t.putExtra("name",selectedMeeting.getName());
+                    t.putExtra("status",selectedMeeting.getStatus());
+                    startActivity(t);
+                }
+
+             }
+        });
         return view;
     }
 
@@ -79,22 +107,25 @@ public class MeetingsFragment extends Fragment{
                         String location = user.getString("location_name");
                         String date = user.getString("date");
                         String time = user.getString("time");
+                        String id=user.getString("meeting_id");
                         String description = user.getString("description");
-                        meetings.add(new Meetings(location, date, time, description));
+                        String name=user.getString("meeting_name");
+                        String status=user.getString("status");
+                        meetings.add(new Meetings(location, date, time, description,id,name,status));
                     }if (users.length()>0)
                         return meetings;
                     else {
-                        meetings.add(new Meetings("You Have No Meetings", "", "", ""));
+                        meetings.add(new Meetings("You Have No Meetings", "", "", "","","",""));
                         return meetings;
                     }
                 } else {
-                    meetings.add(new Meetings("You Have No Meetings", "", "", ""));
+                    meetings.add(new Meetings("You Have No Meetings", "", "", "","","",""));
 
                     return meetings;
                 }
 
             } catch (JSONException e) {
-                meetings.add(new Meetings("You Have No Meetings", "", "", ""));
+                meetings.add(new Meetings("You Have No Meetings", "", "", "","","",""));
                 return meetings;
 
             }

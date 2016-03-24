@@ -38,6 +38,7 @@ import com.mk.meetbuddies.fragments.LocationsFragment;
 import com.mk.meetbuddies.fragments.LogoutFragment;
 import com.mk.meetbuddies.fragments.MeetingsFragment;
 import com.mk.meetbuddies.fragments.ProfileFragment;
+import com.mk.meetbuddies.fragments.VerifyGroupActivity;
 import com.mk.utils.DataBaseConnector;
 
 import com.mk.utils.DownloadImg;
@@ -89,8 +90,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent dash = new Intent(view.getContext(), VerifyGroupActivity.class);
+                startActivity(dash);
             }
         });
 

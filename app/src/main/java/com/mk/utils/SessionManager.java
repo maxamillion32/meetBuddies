@@ -27,6 +27,8 @@ public class SessionManager {
     public static final String KEY_PHONE = "phone";
     public static final String KEY_LAT = "lat";
     public static final String KEY_LON = "lon";
+    public static final String KEY_TIME = "time";
+    public static final String KEY_DATE = "date";
 
     public SessionManager(Context cont) {
         Context = cont;
@@ -146,5 +148,22 @@ public class SessionManager {
 
     public Long getLon() {
         return Pref.getLong(KEY_LON, 0);
+    }
+    public String getTime() {
+        return Pref.getString(KEY_TIME, "");
+    }
+
+    public String getDate() {
+        return Pref.getString(KEY_DATE, "");
+    }
+
+    public void setTime(String time) {
+        editor.putString(KEY_TIME, time);
+        editor.commit();
+    }
+
+    public void setDate(String date) {
+        editor.putString(KEY_DATE, date);
+        editor.commit();
     }
 }

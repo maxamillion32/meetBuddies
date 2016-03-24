@@ -2,6 +2,7 @@ package com.mk.meetbuddies.fragments;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class MeetingsAdapter extends ArrayAdapter<Meetings> {
             viewHolder.dateLabel = (TextView) convertView.findViewById(R.id.textView2);
             viewHolder.timeLabel = (TextView) convertView.findViewById(R.id.textViewTime);
             viewHolder.descriptionLabel = (TextView) convertView.findViewById(R.id.textViewDescription);
+            viewHolder.status = (TextView) convertView.findViewById(R.id.textViewStatus);
 
         }
 
@@ -49,17 +51,25 @@ public class MeetingsAdapter extends ArrayAdapter<Meetings> {
         viewHolder.location.setText(meeting.getLocation());
         viewHolder.date.setText(meeting.getDate());
         viewHolder.time.setText(meeting.getTime());
+        viewHolder.status.setText(meeting.getStatus());
         viewHolder.description.setText(meeting.getDescription());
         if(viewHolder.location.getText()=="You Have No Meetings"){
             viewHolder.locationLabel.setVisibility(View.INVISIBLE);
             viewHolder.dateLabel.setVisibility(View.INVISIBLE);
             viewHolder.timeLabel.setVisibility(View.INVISIBLE);
             viewHolder.descriptionLabel.setVisibility(View.INVISIBLE);
+            viewHolder.status.setVisibility(View.INVISIBLE);
         }else{
             viewHolder.locationLabel.setVisibility(View.VISIBLE);
             viewHolder.dateLabel.setVisibility(View.VISIBLE);
             viewHolder.timeLabel.setVisibility(View.VISIBLE);
             viewHolder.descriptionLabel.setVisibility(View.VISIBLE);
+            viewHolder.status.setVisibility(View.VISIBLE);
+            if(meeting.getStatus().equals("Confirmed")){
+                viewHolder.status.setTextColor(Color.GREEN);
+            }else{
+                viewHolder.status.setTextColor(Color.RED);
+            }
         }
 
         return convertView;
@@ -74,5 +84,6 @@ public class MeetingsAdapter extends ArrayAdapter<Meetings> {
         public TextView timeLabel;
         public TextView descriptionLabel;
         public TextView locationLabel;
+        public TextView status;
     }
 }

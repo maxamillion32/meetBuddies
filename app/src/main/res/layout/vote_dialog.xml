@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="250dp">
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="Vote"
+        android:textColor="@android:color/white"
+        android:id="@+id/imageViews2"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="10pt"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentBottom="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Please Select Your Desirable location(s) :"
+        android:id="@+id/textView9"
+        android:layout_below="@+id/imageViews2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <com.mk.utils.MultiSpinner
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:id="@+id/preferencesVotes"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:text="Vote"
+        android:background="@drawable/signin_button"
+        android:textColor="@android:color/white"
+        android:id="@+id/voteBtn"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="38dp"
+        android:layout_below="@+id/preferencesVotes"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

@@ -4,13 +4,16 @@ package com.mk.meetbuddies.fragments;
  * Created by mourad on 2016-03-23.
  */
 public class Meetings {
-    private String location, date, time, description;
+    private String location, date, time, description,id,name,status;
 
-    public Meetings(String location, String date, String time, String description) {
+    public Meetings(String location, String date, String time, String description,String id,String name, String status) {
         this.location = location;
         this.date = date;
         this.time = time;
         this.description = description;
+        this.id=id;
+        this.name=name;
+        this.status=status;
     }
 
     public String getLocation() {
@@ -24,7 +27,18 @@ public class Meetings {
     public String getDate() {
         return date;
     }
-
+    public String getId() {
+        return id;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String st) {
+        this.status = st;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public void setDate(String date) {
         this.date = date;
     }
@@ -43,5 +57,11 @@ public class Meetings {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }
