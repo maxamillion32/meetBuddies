@@ -1,5 +1,6 @@
 package com.mk.meetbuddies.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.mk.meetbuddies.MainActivity;
 import com.mk.meetbuddies.R;
 import com.mk.utils.DatePickerFragment;
 import com.mk.utils.JSONParser;
@@ -157,12 +159,13 @@ public class VerifyGroupActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             if (result.equals("success")) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                Fragment fragment = new ProfileFragment();
+             //   Intent t= new Intent(VerifyGroupActivity.class, MainActivity.class);
+             /*   FragmentManager fragmentManager = getSupportFragmentManager();
+               Fragment fragment = new ProfileFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.mainFragment, fragment)
                                 //.set
-                        .commit();
+                        .commit();*/
             }
             if (result.equals("fail")) {
             }

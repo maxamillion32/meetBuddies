@@ -135,7 +135,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:layout_alignTop="@+id/textView5"
-            android:layout_alignStart="@+id/status" />
+            android:layout_alignStart="@+id/meetingDate" />
 
         <TextView
             android:layout_width="wrap_content"

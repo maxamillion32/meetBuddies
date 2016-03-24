@@ -193,7 +193,7 @@ public class SignUp extends AppCompatActivity{
         protected String doInBackground(String... params) {
             // TODO Auto-generated method stub
 
-            ArrayList<NameValuePair> parames = new ArrayList<NameValuePair>();
+           ArrayList<NameValuePair> parames = new ArrayList<NameValuePair>();
            parames.add(new BasicNameValuePair("login", mLogin));
             parames.add(new BasicNameValuePair("password", mPass));
             parames.add(new BasicNameValuePair("name", mName));

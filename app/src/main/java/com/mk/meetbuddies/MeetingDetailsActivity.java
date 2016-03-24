@@ -1,6 +1,7 @@
 package com.mk.meetbuddies;
 
 import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mk.meetbuddies.fragments.Meetings;
+import com.mk.meetbuddies.fragments.VoteResult;
 import com.mk.utils.SessionManager;
 import com.mk.utils.VotesDialog;
 
@@ -39,9 +41,14 @@ public class MeetingDetailsActivity extends AppCompatActivity {
               //  session.gethisGroupOrg();
                     if(session.gethisGroupOrg()){
                         //Todo open Vote Results
+                        meeting.getId();
+                     //   FragmentManager fm = getSupportFragmentManager();
+                        VoteResult viteResult = new VoteResult(MeetingDetailsActivity.this, meeting.getId());
+                        viteResult.show();
+                       // viteResult.setCanceledOnTouchOutside(false);
                     }else{
                         //TODO Open Vote Dialog
-                        VotesDialog votes = new VotesDialog(MeetingDetailsActivity.this);
+                        VotesDialog votes = new VotesDialog(MeetingDetailsActivity.this,meeting);
                         votes.show();
                     }
             }
@@ -84,7 +91,7 @@ public class MeetingDetailsActivity extends AppCompatActivity {
                 }
                 if(session.gethisGroupOrg()){
                     //Todo open Vote Results
-                    voteConfirm.setText("Confirm Meeting Location");
+                    voteConfirm.setText("See Vote Results");
                 }else{
                     voteConfirm.setText("Vote for Your favorite location");
 
